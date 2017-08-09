@@ -1,0 +1,17 @@
+
+.blk-lottery{
+    border: 1px solid;
+}
+
+#set-lot{
+    text-align: center;
+}
+
+#set-lot li{
+    display: inline-block;
+}
+
+#form-control{
+    margin: 20px;
+    text-align: center;
+}
