@@ -1,17 +1,50 @@
 
-.blk-lottery{
-    border: 1px solid;
+.btn {
+    padding: 20px 70px;
+    
+    color: #ffffff;
+    border: none;
+    font-size: 34px;
+    cursor: pointer;
 }
 
-#set-lot{
+.start {
+    background-color: #2ab676;
+}
+
+.stop {
+    background-color: #c45555;
+}
+
+.blk-lottery {
+    width: 50%;
+    border: 1px solid #808080;
+    margin: 0 auto;
+}
+
+#set-lot {
+    padding: 0;
     text-align: center;
 }
 
-#set-lot li{
-    display: inline-block;
-}
+    #set-lot li {
+        display: inline-block;
+        padding: 12px;
+        font-size: 42px;
+        border: 1px solid #808080;
+        border-radius: 15px;
+    }
 
-#form-control{
+#form-control {
     margin: 20px;
     text-align: center;
 }
+
+    #form-control input {
+        margin: 20px;
+    }
+
+    #form-control input:hover,
+    #form-control input:focus {
+        background-color: #0094ff;
+    }
