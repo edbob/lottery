@@ -1,11 +1,27 @@
 
 .btn {
     padding: 20px 70px;
-    
     color: #ffffff;
     border: none;
     font-size: 34px;
     cursor: pointer;
+}
+
+.disabled {
+    padding: 20px 70px;
+    color: #ffffff;
+    border: none;
+    font-size: 34px;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+.disabled input:hover,
+.disabled input:focus {
+    background-color: none;
 }
 
 .start {
@@ -16,10 +32,15 @@
     background-color: #c45555;
 }
 
+.reset {
+    background-color: #0094ff;
+}
+
 .blk-lottery {
     width: 50%;
     border: 1px solid #808080;
     margin: 0 auto;
+    border-radius: 25px;
 }
 
 #set-lot {
@@ -41,10 +62,31 @@
 }
 
     #form-control input {
-        margin: 20px;
+        margin: 3px;
     }
 
-    #form-control input:hover,
-    #form-control input:focus {
-        background-color: #0094ff;
-    }
+.result {
+    font-size: 60px;
+    width: 200px;
+    border: 1px solid #808080;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.warning {
+    border: 1px solid #c45555;
+    background-color: rgba(196, 85, 85, 0.41);
+}
+
+span {
+    margin: 0 10px 10px;
+    display: block;
+    font-size: 12px;
+    color: #666
+}
+
+label {
+    margin: 10px;
+    font-size: 16px;
+    display: block
+}
