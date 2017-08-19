@@ -28,11 +28,11 @@ function init() {
 
 }
 
-let arr = new Array();
+let arr = [];
 
 function lotStart() {
     let f = document.contForm;
-    let variant = parseInt(contForm.fresult.value);
+    let variant = parseInt(f.fresult.value);
 
     if (isNaN(variant) == true) {
         alert("Enter code lottery!");
@@ -49,10 +49,11 @@ function lotStart() {
     }
     
     let ul = getId("set-lot");
-    let allEl = ul.children;
-
-    for (let i = 0; i < allEl.length; i++) {
-        arr.push(allEl[i]);
+    for (let i = 0, x = ul.childNodes; i < x.length; i++){
+        if (x[i].nodeType !== 1) {
+            continue;
+        }
+        arr.push(x[i]);
     }
     anime();
 }
@@ -64,17 +65,13 @@ function anime() {
     intervalHandler = setInterval(function () {
         b++;
         if (b != 9) {
-            arr[0].innerText = b;
-            arr[1].innerText = b;
-            arr[2].innerText = b;
-            arr[3].innerText = b;
-            arr[4].innerText = b;
+            for (let i = 0; i < arr.length; i++) {
+                arr[i].innerText = b;
+            }
         } else {
-            arr[0].innerText = 0;
-            arr[1].innerText = 0;
-            arr[2].innerText = 0;
-            arr[3].innerText = 0;
-            arr[4].innerText = 0;
+            for (let i = 0; i < arr.length; i++) {
+                arr[i].innerText = 0;
+            }
             b = 0;
         }
     }, 50);
@@ -86,16 +83,9 @@ function lotStop() {
     f.fstart.disabled = true;
     f.fstop.className = "disabled";
     clearInterval(intervalHandler);
-    let ul = getId("set-lot");
-    let allEl = ul.children;
-
-    for (let i = 0; i < allEl.length; i++) {
-        arr.push(allEl[i]);
-    }
 
     for (let b = 0; b < arr.length; b++) {
         let flag = -1;
-        let c = 0;
         while (flag < 0) {
             flag = Math.floor(Math.random() * 9);
         }
@@ -105,15 +95,24 @@ function lotStop() {
 }
 
 function result() {
-    let variant = parseInt(contForm.fresult.value);
-    let sumOfSquares;
+    let mvariant =+ contForm.fresult.value;
+    let sumOfSquares = 0;
     arr.forEach(function (x) {
         sumOfSquares += x.innerText;
     });
 
-    let res = sumOfSquares.slice(9, -5);
-    let message = (parseInt(res) == variant) ? "Your is winner!" : "Try again!";
+    let pcresult = parseInt(sumOfSquares, 10);
+    let message = (pcresult == mvariant) ? "Your is winner!" : "Try again!";
     alert(message);
+
+    let mres = getId("my-result");
+    let pres = getId("pc-result");
+
+    let mli = document.createElement("li");
+    let pcli = document.createElement("li");
+
+    mres.appendChild(mli).innerText += mvariant;
+    pres.appendChild(pcli).innerText += pcresult
 }
 
 function lotMaxlength(e) {
@@ -128,10 +127,12 @@ function lotReset() {
     for (let i = 0; i < arr.length; i++) {
         arr[i].innerText = 0;
     }
-    f.fstop.className = "btn start";
+    for (let b = 0; b < 5; b++) {
+        arr.pop();
+    }
+
     f.fstart.className = "btn start";
     f.fstart.disabled = false;
-    f.fstop.disabled = false;
 }
 
 function getId(id) {

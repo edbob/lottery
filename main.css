@@ -1,6 +1,6 @@
 
 .btn {
-    padding: 20px 70px;
+    padding: 20px 60px;
     color: #ffffff;
     border: none;
     font-size: 34px;
@@ -8,7 +8,7 @@
 }
 
 .disabled {
-    padding: 20px 70px;
+    padding: 20px 60px;
     color: #ffffff;
     border: none;
     font-size: 34px;
@@ -37,9 +37,7 @@
 }
 
 .blk-lottery {
-    width: 50%;
     border: 1px solid #808080;
-    margin: 0 auto;
     border-radius: 25px;
 }
 
@@ -74,8 +72,7 @@
 }
 
 .warning {
-    border: 1px solid #c45555;
-    background-color: rgba(196, 85, 85, 0.41);
+    border: 2px solid #c45555;
 }
 
 span {
@@ -90,3 +87,48 @@ label {
     font-size: 16px;
     display: block
 }
+
+.blk-main {
+    width: 780px;
+    margin: 0 auto;
+}
+
+.blk-my-result {
+    width: 10%;
+    position: relative;
+    float: left;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #808080;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.blk-lottery {
+    width: 60%;
+    position: relative;
+    float: left;
+}
+
+.blk-pc-result {
+    width: 10%;
+    position: relative;
+    float: left;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #808080;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.resList {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+    .resList li {
+        border-bottom: 1px solid #c6c6c6;
+        padding: 12px;
+        width: 40px;
+        margin: 0 auto;
+    }

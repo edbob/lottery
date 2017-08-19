@@ -11,24 +11,34 @@
 </head>
 
 <body>
-    <div class="blk-lottery">
-        <ul id="set-lot">
-            <li id="ds1">0</li>
-            <li id="ds2">0</li>
-            <li id="ds3">0</li>
-            <li id="ds4">0</li>
-            <li id="ds5">0</li>
-        </ul>
-        <form name="contForm" id="form-control">
-            <input type="button" name="fstart" value="start" class="btn start" />
-            <input type="button" name="fstop" value="stop" class="btn stop" />
-            <label>your option!</label>
-            <input type="number" name="fresult" maxlength="5" placeholder="00000" class="result" />
-            <span>set to 5 maxlength</span>
-            <label>You can try again</label>
-            <input type="reset" name="freset" value="Try again" class="btn reset" />
-        </form>
-    </div>
+    <div class="blk-main">
+        <div class="blk-my-result">
+            <span>your results</span>
+            <ul id="my-result" class="resList"></ul>
+        </div>
+        <div class="blk-lottery">
+            <ul id="set-lot">
+                <li id="ds1">0</li>
+                <li id="ds2">0</li>
+                <li id="ds3">0</li>
+                <li id="ds4">0</li>
+                <li id="ds5">0</li>
+            </ul>
+            <form name="contForm" id="form-control">
+                <input type="button" name="fstart" value="start" class="btn start" />
+                <input type="button" name="fstop" value="stop" class="btn stop" />
+                <label>your option!</label>
+                <input type="number" name="fresult" maxlength="5" placeholder="00000" class="result" />
+                <span>set to 5 maxlength</span>
+                <label>You can try again</label>
+                <input type="reset" name="freset" value="Try again" class="btn reset" />
+            </form>
+        </div>
+        <div class="blk-pc-result">
+            <span>lot results</span>
+            <ul id="pc-result" class="resList"></ul>
+        </div>
+    </div> 
 </body>
 
 </html>
