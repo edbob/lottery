@@ -13,6 +13,7 @@ function init() {
     let eReset = f.freset;
     f.fstop.disabled = true;
     f.fstop.className = "disabled";
+    f.fresult.onchange = onaction;
 
     if (eStart.addEventListener) eStart.addEventListener("click", lotStart, false);
     if (eStart.attachEvent) eStart.attachEvent("onclick", lotStart);
@@ -25,7 +26,6 @@ function init() {
 
     if (eReset.addEventListener) eReset.addEventListener("click", lotReset, false);
     if (eReset.attachEvent) eReset.attachEvent("onclick", lotReset);
-
 }
 
 let arr = [];
@@ -37,8 +37,6 @@ function lotStart() {
     if (isNaN(variant) == true) {
         alert("Enter code lottery!");
         f.fresult.classList.add("warning");
-        f.fstart.disabled = false;
-        f.fstop.disabled = true;
         return false;
     } else {
         f.fstop.className = "btn start";
@@ -87,7 +85,7 @@ function lotStop() {
     for (let b = 0; b < arr.length; b++) {
         let flag = -1;
         while (flag < 0) {
-            flag = Math.floor(Math.random() * 9);
+            flag = Math.floor(Math.random() * 9) + 1;
         }
         arr[b].innerText = flag;
     }
@@ -133,6 +131,22 @@ function lotReset() {
 
     f.fstart.className = "btn start";
     f.fstart.disabled = false;
+}
+
+function validate(elem, pattern) {
+    let res = elem.value.search(pattern);
+    if (res == -1) {
+        elem.classList.remove("success");
+        elem.classList.add("warning");
+    } else {
+        elem.classList.remove("warning");
+        elem.classList.add("success");
+    }
+}
+
+function onaction() {
+    let pattern = /^[1-9]+$/;
+    validate(this, pattern);
 }
 
 function getId(id) {

@@ -75,6 +75,10 @@
     border: 2px solid #c45555;
 }
 
+.success {
+    border: 2px solid #2ab676;
+}
+
 span {
     margin: 0 10px 10px;
     display: block;
