@@ -11,6 +11,7 @@ function init() {
     let eStop = f.fstop;
     let eMaxleng = f.fresult;
     let eReset = f.freset;
+    let eNoscroll = f.fresult;
     f.fstop.disabled = true;
     f.fstop.className = "disabled";
     f.fresult.onchange = onaction;
@@ -30,8 +31,9 @@ function init() {
     function lotStart() {
         let variant = parseInt(f.fresult.value);
         if (isNaN(variant) == true) {
-            alert("Enter code lottery!");
+            f.fresult.classList.remove("success");
             f.fresult.classList.add("warning");
+            alert("Enter code lottery!");
             return false;
         } else {
             f.fstop.className = "btn start";
@@ -73,6 +75,7 @@ function init() {
         f.fstop.disabled = true;
         f.fstart.disabled = true;
         f.fstop.className = "disabled";
+        f.fresult.disabled = true;
         clearInterval(intervalHandlerDigital);
 
         for (let b = 0; b < arr.length; b++) {
@@ -121,7 +124,7 @@ function init() {
         }
     };
 
-    function lotMaxlength(e) {
+    function lotMaxlength() {
         let tar = event.target;
         if (tar.hasAttribute("maxlength")) {
             tar.value = tar.value.slice(0, tar.getAttribute("maxlength"))
@@ -134,6 +137,7 @@ function init() {
         }
         f.fstart.className = "btn start";
         f.fstart.disabled = false;
+        f.fresult.disabled = false;
 
         if (mspan.style.height == "50px") {
             let flag = 50;
@@ -193,7 +197,6 @@ function init() {
         let pattern = /^[1-9]{5}/;
         validate(this, pattern);
     };
-
 };
 
 function getId(id) {
