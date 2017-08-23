@@ -47,14 +47,14 @@ function init() {
             }
             arr.push(x[i]);
         }
-        anime();
+        animeDigital();
     };
 
-    let intervalHandler;
+    let intervalHandlerDigital;
 
-    function anime() {
+    function animeDigital() {
         let b = 0;
-        intervalHandler = setInterval(function () {
+        intervalHandlerDigital = setInterval(function () {
             b++;
             if (b != 9) {
                 for (let i = 0; i < arr.length; i++) {
@@ -73,7 +73,7 @@ function init() {
         f.fstop.disabled = true;
         f.fstart.disabled = true;
         f.fstop.className = "disabled";
-        clearInterval(intervalHandler);
+        clearInterval(intervalHandlerDigital);
 
         for (let b = 0; b < arr.length; b++) {
             let flag = -1;
@@ -85,6 +85,9 @@ function init() {
         result();
     };
 
+    let intervalHandlerResult;
+    let mspan = getId("mresult");
+
     function result() {
         let mvariant = + contForm.fresult.value;
         let sumOfSquares = 0;
@@ -94,7 +97,15 @@ function init() {
 
         let pcresult = parseInt(sumOfSquares, 10);
         let message = (pcresult == mvariant) ? "Your is winner!" : "Try again!";
-        alert(message);
+        let flag = 0;
+        intervalHandlerResult = setInterval(function () {
+            flag++
+            mspan.innerHTML = message;
+            mspan.style.display = "block";
+            mspan.style.height = flag + "px";
+            mspan.style.paddingTop = flag / 2 + "px";
+            if (flag == 50) clearInterval(intervalHandlerResult);
+        }, 10)
 
         let mres = getId("my-result");
         let pres = getId("pc-result");
@@ -104,6 +115,10 @@ function init() {
 
         mres.appendChild(mli).innerText += mvariant;
         pres.appendChild(pcli).innerText += pcresult
+
+        for (let b = 0; b < 5; b++) {
+            arr.pop();
+        }
     };
 
     function lotMaxlength(e) {
@@ -117,26 +132,60 @@ function init() {
         for (let i = 0; i < arr.length; i++) {
             arr[i].innerText = 0;
         }
-        for (let b = 0; b < 5; b++) {
-            arr.pop();
-        }
         f.fstart.className = "btn start";
         f.fstart.disabled = false;
+
+        if (mspan.style.height == "50px") {
+            let flag = 50;
+            intervalHandlerResult = setInterval(function () {
+                flag--
+                mspan.style.height = flag + "px";
+                mspan.style.paddingTop = flag / 2 + "px";
+                if (flag == 0) {
+                    mspan.style.display = "none";
+                    clearInterval(intervalHandlerResult);
+                }
+            }, 10);
+        }
     };
 
     function validate(elem, pattern) {
         let res = elem.value.search(pattern);
+        let intervalHandlerWarning;
+        let fspan = getId("helpers");
         if (res == -1) {
+            let flag = 0;
             elem.classList.remove("success");
             elem.classList.add("warning");
             f.fstart.disabled = true;
             f.fstart.className = "disabled";
+            if (fspan.style.height != "50px") {
+                intervalHandlerWarning = setInterval(function () {
+                    flag++
+                    fspan.style.display = "block";
+                    fspan.style.height = flag + "px";
+                    fspan.style.paddingTop = flag / 2 + "px";
+                    if (flag == 50) clearInterval(intervalHandlerWarning);
+                }, 10);
+            }
 
         } else {
+            let flag = 50;
             elem.classList.remove("warning");
             elem.classList.add("success");
             f.fstart.disabled = false;
             f.fstart.className = "btn start";
+
+            intervalHandlerWarning = setInterval(function () {
+                flag--
+                fspan.style.height = flag + "px";
+                fspan.style.paddingTop = flag / 2 + "px";
+                if (flag == 0) {
+                    fspan.style.display = "none";
+                    clearInterval(intervalHandlerWarning);
+                }
+            }, 10);
+
         }
     };
 

@@ -55,7 +55,6 @@
     }
 
 #form-control {
-    margin: 20px;
     text-align: center;
 }
 
@@ -136,3 +135,23 @@ label {
         width: 40px;
         margin: 0 auto;
     }
+
+#helpers {
+    display: none;
+    height: 0px;
+    text-align: center;
+    background-color: #c45555;
+    font-size: 18px;
+    color: #ffffff;
+    margin: 0;
+}
+
+#mresult {
+    display: none;
+    height: 0px;
+    text-align: center;
+    background-color: #2ab676;
+    font-size: 18px;
+    color: #ffffff;
+    margin: 0;
+}
