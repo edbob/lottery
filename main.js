@@ -92,7 +92,7 @@ function init() {
     let mspan = getId("mresult");
 
     function result() {
-        let mvariant = + contForm.fresult.value;
+        let mvariant = + f.fresult.value;
         let sumOfSquares = 0;
         arr.forEach(function (x) {
             sumOfSquares += x.innerText;
@@ -112,12 +112,30 @@ function init() {
 
         let mres = getId("my-result");
         let pres = getId("pc-result");
-
         let mli = document.createElement("li");
         let pcli = document.createElement("li");
-
-        mres.appendChild(mli).innerText += mvariant;
         pres.appendChild(pcli).innerText += pcresult
+
+        let csumA = String(mvariant);
+        let csumB = String(pcresult);
+        let valueA = [];
+        let valueB = [];
+
+        for (let i = 0; i < 5; i++) {
+            valueA.push(csumA[i]); 
+            valueB.push(csumB[i]);
+        }
+
+        for (let d = 0; d < 5; d++) {
+            let res = valueA[d].indexOf(valueB[d]) > -1;
+            let elem = document.createElement("b"),
+                text = document.createTextNode(valueA[d]);
+            elem.appendChild(text);
+            if (res == true) {
+                elem.style.color = "#2ab676";
+            }
+            mres.appendChild(mli).appendChild(elem);
+        }
 
         for (let b = 0; b < 5; b++) {
             arr.pop();
