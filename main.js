@@ -36,11 +36,13 @@ function init() {
             alert("Enter code lottery!");
             return false;
         } else {
-            f.fstop.className = "btn start";
+            f.fstop.className = "my-btn start";
             f.fstart.className = "disabled";
             f.fresult.classList.remove("warning");
             f.fstart.disabled = true;
             f.fstop.disabled = false;
+            f.freset.disabled = true;
+            f.freset.className = "disabled";
         }
         let ul = getId("set-lot");
         for (let i = 0, x = ul.childNodes; i < x.length; i++) {
@@ -76,6 +78,8 @@ function init() {
         f.fstart.disabled = true;
         f.fstop.className = "disabled";
         f.fresult.disabled = true;
+        f.freset.disabled = false;
+        f.freset.className = "my-btn start";
         clearInterval(intervalHandlerDigital);
 
         for (let b = 0; b < arr.length; b++) {
@@ -153,7 +157,7 @@ function init() {
         for (let i = 0; i < arr.length; i++) {
             arr[i].innerText = 0;
         }
-        f.fstart.className = "btn start";
+        f.fstart.className = "my-btn start";
         f.fstart.disabled = false;
         f.fresult.disabled = false;
 
@@ -196,7 +200,7 @@ function init() {
             elem.classList.remove("warning");
             elem.classList.add("success");
             f.fstart.disabled = false;
-            f.fstart.className = "btn start";
+            f.fstart.className = "my-btn start";
 
             intervalHandlerWarning = setInterval(function () {
                 flag--

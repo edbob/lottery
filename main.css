@@ -1,5 +1,38 @@
+header{
+    margin: 50px 0;
+}
 
-.btn {
+nav {
+    text-align: center;
+}
+
+#my-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+    #my-nav li {
+        display: inline-block;
+        padding: 0 25px;
+    }
+
+        #my-nav li a {
+            color: #666;
+            padding: 12px;
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+
+        #my-nav li a:hover,
+        #my-nav li a:focus {
+            text-decoration: none;
+            border: 1px solid #808080;
+            border-radius: 26px;
+            background-color: transparent;
+        }
+
+.my-btn {
     padding: 20px 60px;
     color: #ffffff;
     border: none;
@@ -91,14 +124,10 @@ label {
     display: block
 }
 
-.blk-main {
-    width: 780px;
-    margin: 0 auto;
-}
-
-.blk-my-result {
-    width: 10%;
+.blk-res {
+    width: 6%;
     position: relative;
+    left: 460px;
     float: left;
     padding: 20px;
     margin: 10px;
@@ -108,30 +137,9 @@ label {
 }
 
 .blk-lottery {
-    width: 60%;
-    position: relative;
-    float: left;
-}
-
-.blk-pc-result {
-    width: 10%;
-    position: relative;
-    float: left;
-    padding: 20px;
-    margin: 10px;
-    border: 1px solid #808080;
-    border-radius: 25px;
-    text-align: center;
-}
-
-.blk-winning {
-    width: 10%;
-    position: relative;
-    padding: 20px;
-    margin: 10px;
-    border: 1px solid #808080;
-    border-radius: 25px;
-    text-align: center;
+    width: 30%;
+    position: absolute;
+    padding: 10px;
 }
 
 .resList {
@@ -145,6 +153,10 @@ label {
         width: 40px;
         margin: 0 auto;
     }
+        .resList li sup {
+            font-size: 8px;
+            margin-left: 2px;
+        }
 
 #helpers {
     display: none;
