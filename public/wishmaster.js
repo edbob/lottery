@@ -70,226 +70,298 @@
 "use strict";
 
 
-if (window.addEventListener) window.addEventListener("load", init, false);else if (window.attachEvent) window.attachEvent("onload", init);
+var _model = __webpack_require__(1);
 
-function init() {
-    var arr = [];
-    var f = document.contForm;
-    var eStart = f.fstart;
-    var eStop = f.fstop;
-    var eMaxleng = f.fresult;
-    var eReset = f.freset;
-    var eNoscroll = f.fresult;
-    f.fstop.disabled = true;
-    f.fstop.className = "disabled";
-    f.fresult.onchange = onaction;
+var _model2 = _interopRequireDefault(_model);
 
-    if (eStart.addEventListener) eStart.addEventListener("click", lotStart, false);
-    if (eStart.attachEvent) eStart.attachEvent("onclick", lotStart);
+var _controller = __webpack_require__(2);
 
-    if (eStop.addEventListener) eStop.addEventListener("click", lotStop, false);
-    if (eStop.attachEvent) eStop.attachEvent("onclick", lotStop);
+var _controller2 = _interopRequireDefault(_controller);
 
-    if (eMaxleng.addEventListener) eMaxleng.addEventListener("input", lotMaxlength, false);
-    if (eMaxleng.attachEvent) eMaxleng.attachEvent("input", lotMaxlength);
+var _view = __webpack_require__(3);
 
-    if (eReset.addEventListener) eReset.addEventListener("click", lotReset, false);
-    if (eReset.attachEvent) eReset.attachEvent("onclick", lotReset);
+var _view2 = _interopRequireDefault(_view);
 
-    function lotStart() {
-        var variant = parseInt(f.fresult.value);
-        if (isNaN(variant) == true) {
-            f.fresult.classList.remove("success");
-            f.fresult.classList.add("warning");
-            alert("Enter code lottery!");
-            return false;
-        } else {
-            f.fstop.className = "my-btn start";
-            f.fstart.className = "disabled";
-            f.fresult.classList.remove("warning");
-            f.fstart.disabled = true;
-            f.fstop.disabled = false;
-            f.freset.disabled = true;
-            f.freset.className = "disabled";
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var model = new _model2.default();
+var controller = new _controller2.default(model);
+var view = new _view2.default(model, controller);
+
+controller.initialize(model, view);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Model = function Model() {
+    //...code
+
+    _classCallCheck(this, Model);
+};
+
+;
+
+exports.default = Model;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Controller = function () {
+    function Controller() {
+        _classCallCheck(this, Controller);
+    }
+
+    _createClass(Controller, [{
+        key: "initialize",
+        value: function initialize(model, view) {
+            this.model = model;
+            this.view = view;
+
+            this.arr = [];
+            this.intervalHandlerDigital = 0;
         }
-        var ul = getId("set-lot");
-        for (var i = 0, x = ul.childNodes; i < x.length; i++) {
-            if (x[i].nodeType !== 1) {
-                continue;
-            }
-            arr.push(x[i]);
+    }, {
+        key: "start",
+
+        //надо поместить весь преобразующийся код в css чтобы было красиво!
+        value: function start(_ref) {
+            var variant = _ref.variant;
+
+            this.fresult = this.view.fresult;
+            console.log(this.fresult);
+            if (!isNaN(variant)) {
+                this.view.fstop.className = "my-btn start";
+                this.view.fstart.className = "disabled";
+                this.view.fresult.classList.remove("warning");
+                this.view.fstart.disabled = true;
+                this.view.fstop.disabled = false;
+                this.view.freset.disabled = true;
+                this.view.freset.className = "disabled";
+            } else {
+                this.view.fresult.classList.remove("success");
+                this.view.fresult.classList.add("warning");
+                alert("Enter code lottery!");
+                return false;
+            };
+
+            for (var i = 0, x = this.view.ul.childNodes; i < x.length; i++) {
+                if (x[i].nodeType !== 1) {
+                    continue;
+                }
+                this.arr.push(x[i]);
+            };
+
+            this.animeDigital();
         }
-        animeDigital();
-    };
+    }, {
+        key: "animeDigital",
+        value: function animeDigital() {
+            var _this = this;
 
-    var intervalHandlerDigital = void 0;
+            var b = 0;
+            this.intervalHandlerDigital = setInterval(function () {
+                b++;
+                if (b != 9) {
+                    for (var i = 0; i < _this.arr.length; i++) {
+                        _this.arr[i].innerText = b;
+                    }
+                } else {
+                    for (var _i = 0; _i < _this.arr.length; _i++) {
+                        _this.arr[_i].innerText = 0;
+                    }
+                    b = 0;
+                }
+            }, 50);
+        }
+    }, {
+        key: "validate",
 
-    function animeDigital() {
-        var b = 0;
-        intervalHandlerDigital = setInterval(function () {
-            b++;
-            if (b != 9) {
-                for (var i = 0; i < arr.length; i++) {
-                    arr[i].innerText = b;
+
+        //необходимо добавить stop! и порефакторить код!!!
+
+        value: function validate(elem, pattern) {
+            //тут тоже все что можно запехнуть в css
+            var res = elem.value.search(pattern);
+            var intervalHandlerWarning = void 0;
+            var fspan = getId("helpers");
+            if (res == -1) {
+                var flag = 0;
+                elem.classList.remove("success");
+                elem.classList.add("warning");
+                f.fstart.disabled = true;
+                f.fstart.className = "disabled";
+                if (fspan.style.height != "50px") {
+                    intervalHandlerWarning = setInterval(function () {
+                        flag++;
+                        fspan.style.display = "block";
+                        fspan.style.height = flag + "px";
+                        fspan.style.paddingTop = flag / 2 + "px";
+                        if (flag == 50) clearInterval(intervalHandlerWarning);
+                    }, 10);
                 }
             } else {
-                for (var _i = 0; _i < arr.length; _i++) {
-                    arr[_i].innerText = 0;
-                }
-                b = 0;
-            }
-        }, 50);
-    };
+                var _flag = 50;
+                elem.classList.remove("warning");
+                elem.classList.add("success");
+                f.fstart.disabled = false;
+                f.fstart.className = "my-btn start";
 
-    function lotStop() {
-        f.fstop.disabled = true;
-        f.fstart.disabled = true;
-        f.fstop.className = "disabled";
-        f.fresult.disabled = true;
-        f.freset.disabled = false;
-        f.freset.className = "my-btn start";
-        clearInterval(intervalHandlerDigital);
-
-        for (var b = 0; b < arr.length; b++) {
-            var flag = -1;
-            while (flag < 0) {
-                flag = Math.floor(Math.random() * 9) + 1;
-            }
-            arr[b].innerText = flag;
-        }
-        result();
-    };
-
-    var intervalHandlerResult = void 0;
-    var mspan = getId("mresult");
-
-    function result() {
-        var mvariant = +f.fresult.value;
-        var sumOfSquares = 0;
-        arr.forEach(function (x) {
-            sumOfSquares += x.innerText;
-        });
-
-        var pcresult = parseInt(sumOfSquares, 10);
-        var message = pcresult == mvariant ? "Your is winner!" : "Try again!";
-        var flag = 0;
-        intervalHandlerResult = setInterval(function () {
-            flag++;
-            mspan.innerHTML = message;
-            mspan.style.display = "block";
-            mspan.style.height = flag + "px";
-            mspan.style.paddingTop = flag / 2 + "px";
-            if (flag == 50) clearInterval(intervalHandlerResult);
-        }, 10);
-
-        var mres = getId("my-result");
-        var pres = getId("pc-result");
-        var mli = document.createElement("li");
-        var pcli = document.createElement("li");
-        pres.appendChild(pcli).innerText += pcresult;
-
-        var csumA = String(mvariant);
-        var csumB = String(pcresult);
-        var valueA = [];
-        var valueB = [];
-
-        for (var i = 0; i < 5; i++) {
-            valueA.push(csumA[i]);
-            valueB.push(csumB[i]);
-        }
-
-        for (var d = 0; d < 5; d++) {
-            var res = valueA[d].indexOf(valueB[d]) > -1;
-            var elem = document.createElement("b"),
-                text = document.createTextNode(valueA[d]);
-            elem.appendChild(text);
-            if (res == true) {
-                elem.style.color = "#2ab676";
-            }
-            mres.appendChild(mli).appendChild(elem);
-        }
-
-        for (var b = 0; b < 5; b++) {
-            arr.pop();
-        }
-    };
-
-    function lotMaxlength() {
-        var tar = event.target;
-        if (tar.hasAttribute("maxlength")) {
-            tar.value = tar.value.slice(0, tar.getAttribute("maxlength"));
-        }
-    };
-
-    function lotReset() {
-        for (var i = 0; i < arr.length; i++) {
-            arr[i].innerText = 0;
-        }
-        f.fstart.className = "my-btn start";
-        f.fstart.disabled = false;
-        f.fresult.disabled = false;
-
-        if (mspan.style.height == "50px") {
-            var flag = 50;
-            intervalHandlerResult = setInterval(function () {
-                flag--;
-                mspan.style.height = flag + "px";
-                mspan.style.paddingTop = flag / 2 + "px";
-                if (flag == 0) {
-                    mspan.style.display = "none";
-                    clearInterval(intervalHandlerResult);
-                }
-            }, 10);
-        }
-    };
-
-    function validate(elem, pattern) {
-        var res = elem.value.search(pattern);
-        var intervalHandlerWarning = void 0;
-        var fspan = getId("helpers");
-        if (res == -1) {
-            var flag = 0;
-            elem.classList.remove("success");
-            elem.classList.add("warning");
-            f.fstart.disabled = true;
-            f.fstart.className = "disabled";
-            if (fspan.style.height != "50px") {
                 intervalHandlerWarning = setInterval(function () {
-                    flag++;
-                    fspan.style.display = "block";
-                    fspan.style.height = flag + "px";
-                    fspan.style.paddingTop = flag / 2 + "px";
-                    if (flag == 50) clearInterval(intervalHandlerWarning);
+                    _flag--;
+                    fspan.style.height = _flag + "px";
+                    fspan.style.paddingTop = _flag / 2 + "px";
+                    if (_flag == 0) {
+                        fspan.style.display = "none";
+                        clearInterval(intervalHandlerWarning);
+                    }
                 }, 10);
             }
-        } else {
-            var _flag = 50;
-            elem.classList.remove("warning");
-            elem.classList.add("success");
-            f.fstart.disabled = false;
-            f.fstart.className = "my-btn start";
-
-            intervalHandlerWarning = setInterval(function () {
-                _flag--;
-                fspan.style.height = _flag + "px";
-                fspan.style.paddingTop = _flag / 2 + "px";
-                if (_flag == 0) {
-                    fspan.style.display = "none";
-                    clearInterval(intervalHandlerWarning);
-                }
-            }, 10);
         }
-    };
+    }, {
+        key: "memoize",
+        value: function memoize(fn) {
+            var store = {};
 
-    function onaction() {
-        var pattern = /^[1-9]{5}/;
-        validate(this, pattern);
-    };
-};
+            return function (arg) {
+                if (store[arg]) {
+                    return store[arg];
+                } else {
+                    store[arg] = fn(arg);
+                    return store[arg];
+                };
+            };
+        }
+    }]);
 
-function getId(id) {
-    return document.getElementById(id);
-};
+    return Controller;
+}();
+
+;
+
+exports.default = Controller;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var View = function () {
+    function View(model, controller) {
+        _classCallCheck(this, View);
+
+        this.model = model;
+        this.controller = controller;
+
+        this.onLoad();
+    }
+
+    _createClass(View, [{
+        key: "onLoad",
+        value: function onLoad() {
+            if (window.addEventListener) {
+                window.addEventListener("load", this.init.bind(this), false);
+            } else if (window.attachEvent) {
+                window.attachEvent("onload", this.init.bind(this));
+            };
+        }
+    }, {
+        key: "init",
+        value: function init() {
+            this.form = document.contForm;
+            this.fstart = this.form.fstart;
+            this.fstop = this.form.fstop;
+            this.fresult = this.form.fresult;
+            this.freset = this.form.freset;
+
+            this.fstop.disabled = true;
+            this.fstop.className = "disabled";
+            //this.fresult.onchange = this.onAction;
+
+            if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.clickStart.bind(this), false);
+            if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.clickStart);
+
+            if (this.fstop.addEventListener) this.fstop.addEventListener("click", this.lotStop.bind(this), false);
+            if (this.fstop.attachEvent) this.fstop.attachEvent("onclick", this.lotStop);
+
+            if (this.fresult.addEventListener) this.fresult.addEventListener("input", this.lotMaxlength.bind(this), false);
+            if (this.fresult.attachEvent) this.fresult.attachEvent("input", this.lotMaxlength);
+
+            if (this.freset.addEventListener) this.freset.addEventListener("click", this.lotReset.bind(this), false);
+            if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
+
+            this.getID = this.controller.memoize(this.getElement);
+            this.ul = this.getID("#set-lot");
+        }
+    }, {
+        key: "clickStart",
+        value: function clickStart(event) {
+            var data = {
+                variant: parseInt(this.fresult.value)
+            };
+
+            this.controller.start(data);
+        }
+    }, {
+        key: "lotStop",
+        value: function lotStop() {}
+    }, {
+        key: "getElement",
+        value: function getElement(selector) {
+            return document.querySelector(selector);
+        }
+    }, {
+        key: "lotMaxlength",
+        value: function lotMaxlength() {}
+    }, {
+        key: "onAction",
+        value: function onAction() {
+            var pattern = /^[1-9]{5}/;
+
+            this.controller.validate(this, pattern);
+        }
+    }, {
+        key: "lotReset",
+        value: function lotReset() {}
+    }]);
+
+    return View;
+}();
+
+;
+
+exports.default = View;
 
 /***/ })
 /******/ ]);
