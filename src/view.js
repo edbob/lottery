@@ -24,25 +24,29 @@ class View {
 
         this.fstop.disabled = true;
         this.fstop.className = "disabled";
-        //this.fresult.onchange = this.onAction;
 
-        if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.clickStart.bind(this), false);
-        if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.clickStart);
+        if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
+        if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
 
-        if (this.fstop.addEventListener) this.fstop.addEventListener("click", this.lotStop.bind(this), false);
-        if (this.fstop.attachEvent) this.fstop.attachEvent("onclick", this.lotStop);
+        if (this.fstop.addEventListener) this.fstop.addEventListener("click", this.stop.bind(this), false);
+        if (this.fstop.attachEvent) this.fstop.attachEvent("onclick", this.stop);
 
-        if (this.fresult.addEventListener) this.fresult.addEventListener("input", this.lotMaxlength.bind(this), false);
-        if (this.fresult.attachEvent) this.fresult.attachEvent("input", this.lotMaxlength);
+        if (this.fresult.addEventListener) this.fresult.addEventListener("input", this.validAction.bind(this), false);
+        if (this.fresult.attachEvent) this.fresult.attachEvent("input", this.validAction);
 
         if (this.freset.addEventListener) this.freset.addEventListener("click", this.lotReset.bind(this), false);
         if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
         this.getID = this.controller.memoize(this.getElement);
-        this.ul = this.getID("#set-lot");
+        this.ellot = this.getID("#set-lot");
+        this.elResult = this.getID("#mresult");
+        this.mres = this.getID("#my-result");
+        this.pres = this.getID("#pc-result");
+        this.fspan = this.getID("#helpers");
+        this.mspan = this.getID("#mresult");
     };
 
-    clickStart(event) {
+   start(event) {
         let data = {
             variant: parseInt(this.fresult.value),
         };
@@ -50,26 +54,24 @@ class View {
         this.controller.start(data);
     };
 
-    lotStop() {
-
+    stop(event) {
+        this.controller.stop();
     };
 
     getElement(selector) {
         return document.querySelector(selector);
     };
 
-    lotMaxlength() {
-
-    };
-
-    onAction() {
-        let pattern = /^[1-9]{5}/;
-
-        this.controller.validate(this, pattern);
+    validAction(event) {
+        let data = {
+            target: event.target,
+        }   
+        this.controller.Maxlength(data);
+        this.controller.patterns(data);
     };
 
     lotReset() {
-
+        this.controller.reset();
     };
 
 };

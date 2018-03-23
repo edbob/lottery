@@ -141,6 +141,8 @@ var Controller = function () {
 
             this.arr = [];
             this.intervalHandlerDigital = 0;
+            this.intervalHandlerResult = 0;
+            this.intervalHandlerWarning = 0;
         }
     }, {
         key: "start",
@@ -166,7 +168,7 @@ var Controller = function () {
                 return false;
             };
 
-            for (var i = 0, x = this.view.ul.childNodes; i < x.length; i++) {
+            for (var i = 0, x = this.view.ellot.childNodes; i < x.length; i++) {
                 if (x[i].nodeType !== 1) {
                     continue;
                 }
@@ -176,24 +178,107 @@ var Controller = function () {
             this.animeDigital();
         }
     }, {
+        key: "stop",
+        value: function stop() {
+            this.view.fstop.disabled = true;
+            this.view.fstart.disabled = true;
+            this.view.fstop.className = "disabled";
+            this.view.fresult.disabled = true;
+            this.view.freset.disabled = false;
+            this.view.freset.className = "my-btn start";
+            clearInterval(this.intervalHandlerDigital);
+
+            for (var i = 0; i < this.arr.length; i++) {
+                var flag = -1;
+                while (flag < 0) {
+                    flag = Math.floor(Math.random() * 9) + 1;
+                }
+                this.arr[i].innerText = flag;
+            };
+            this.result();
+        }
+    }, {
+        key: "result",
+        value: function result() {
+            var _this = this;
+
+            var mvariant = +this.view.fresult.value;
+            var sumOfSquares = 0;
+            this.arr.forEach(function (x) {
+                sumOfSquares += x.innerText;
+            });
+
+            var pcresult = parseInt(sumOfSquares, 10);
+            var message = pcresult == mvariant ? "Your is winner!" : "Try again!";
+            var flag = 0;
+
+            this.intervalHandlerResult = setInterval(function () {
+                flag++;
+                _this.view.elResult.innerHTML = message;
+                _this.view.elResult.style.display = "block";
+                _this.view.elResult.style.height = flag + "px";
+                _this.view.elResult.style.paddingTop = flag / 2 + "px";
+
+                if (flag == 50) clearInterval(_this.intervalHandlerResult);
+            }, 10);
+
+            var mli = document.createElement("li");
+            var pcli = document.createElement("li");
+            this.view.pres.appendChild(pcli).innerText += pcresult;
+
+            var csumA = String(mvariant);
+            var csumB = String(pcresult);
+            var storA = [];
+            var storB = [];
+
+            for (var i = 0; i < 5; i++) {
+                storA.push(csumA[i]);
+                storB.push(csumB[i]);
+            };
+
+            for (var _i = 0; _i < 5; _i++) {
+                var res = storA[_i].indexOf(storB[_i]) > -1;
+                var elem = document.createElement("b"),
+                    text = document.createTextNode(storA[_i]);
+                elem.appendChild(text);
+                if (res == true) {
+                    elem.style.color = "#2ab676";
+                }
+                this.view.mres.appendChild(mli).appendChild(elem);
+            };
+
+            for (var _i2 = 0; _i2 < 5; _i2++) {
+                this.arr.pop();
+            };
+        }
+    }, {
         key: "animeDigital",
         value: function animeDigital() {
-            var _this = this;
+            var _this2 = this;
 
             var b = 0;
             this.intervalHandlerDigital = setInterval(function () {
                 b++;
                 if (b != 9) {
-                    for (var i = 0; i < _this.arr.length; i++) {
-                        _this.arr[i].innerText = b;
+                    for (var i = 0; i < _this2.arr.length; i++) {
+                        _this2.arr[i].innerText = b;
                     }
                 } else {
-                    for (var _i = 0; _i < _this.arr.length; _i++) {
-                        _this.arr[_i].innerText = 0;
+                    for (var _i3 = 0; _i3 < _this2.arr.length; _i3++) {
+                        _this2.arr[_i3].innerText = 0;
                     }
                     b = 0;
                 }
             }, 50);
+        }
+    }, {
+        key: "Maxlength",
+        value: function Maxlength(_ref2) {
+            var target = _ref2.target;
+
+            if (target.hasAttribute("maxlength")) {
+                target.value = target.value.slice(0, target.getAttribute("maxlength"));
+            };
         }
     }, {
         key: "validate",
@@ -202,42 +287,77 @@ var Controller = function () {
         //необходимо добавить stop! и порефакторить код!!!
 
         value: function validate(elem, pattern) {
+            var _this3 = this;
+
             //тут тоже все что можно запехнуть в css
             var res = elem.value.search(pattern);
-            var intervalHandlerWarning = void 0;
-            var fspan = getId("helpers");
+
+            var fspan = this.view.fspan;
             if (res == -1) {
                 var flag = 0;
                 elem.classList.remove("success");
                 elem.classList.add("warning");
-                f.fstart.disabled = true;
-                f.fstart.className = "disabled";
+                this.view.fstart.disabled = true;
+                this.view.fstart.className = "disabled";
                 if (fspan.style.height != "50px") {
-                    intervalHandlerWarning = setInterval(function () {
+                    this.intervalHandlerWarning = setInterval(function () {
                         flag++;
                         fspan.style.display = "block";
                         fspan.style.height = flag + "px";
                         fspan.style.paddingTop = flag / 2 + "px";
-                        if (flag == 50) clearInterval(intervalHandlerWarning);
+                        if (flag == 50) clearInterval(_this3.intervalHandlerWarning);
                     }, 10);
                 }
             } else {
                 var _flag = 50;
                 elem.classList.remove("warning");
                 elem.classList.add("success");
-                f.fstart.disabled = false;
-                f.fstart.className = "my-btn start";
+                this.view.fstart.disabled = false;
+                this.view.fstart.className = "my-btn start";
 
-                intervalHandlerWarning = setInterval(function () {
+                this.intervalHandlerWarning = setInterval(function () {
                     _flag--;
                     fspan.style.height = _flag + "px";
                     fspan.style.paddingTop = _flag / 2 + "px";
                     if (_flag == 0) {
                         fspan.style.display = "none";
-                        clearInterval(intervalHandlerWarning);
+                        clearInterval(_this3.intervalHandlerWarning);
                     }
                 }, 10);
+            };
+        }
+    }, {
+        key: "reset",
+        value: function reset() {
+            var _this4 = this;
+
+            for (var i = 0; i < this.arr.length; i++) {
+                this.arr[i].innerText = 0;
             }
+            this.view.fstart.className = "my-btn start";
+            this.view.fstart.disabled = false;
+            this.view.fresult.disabled = false;
+
+            if (this.view.mspan.style.height == "50px") {
+                var flag = 50;
+                this.intervalHandlerResult = setInterval(function () {
+                    flag--;
+                    _this4.view.mspan.style.height = flag + "px";
+                    _this4.view.mspan.style.paddingTop = flag / 2 + "px";
+                    if (flag == 0) {
+                        _this4.view.mspan.style.display = "none";
+                        clearInterval(_this4.intervalHandlerResult);
+                    }
+                }, 10);
+            };
+        }
+    }, {
+        key: "patterns",
+        value: function patterns(_ref3) {
+            var target = _ref3.target;
+
+            var pattern = /^[1-9]{5}/;
+            this.validate(target, pattern);
         }
     }, {
         key: "memoize",
@@ -307,26 +427,30 @@ var View = function () {
 
             this.fstop.disabled = true;
             this.fstop.className = "disabled";
-            //this.fresult.onchange = this.onAction;
 
-            if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.clickStart.bind(this), false);
-            if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.clickStart);
+            if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
+            if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
 
-            if (this.fstop.addEventListener) this.fstop.addEventListener("click", this.lotStop.bind(this), false);
-            if (this.fstop.attachEvent) this.fstop.attachEvent("onclick", this.lotStop);
+            if (this.fstop.addEventListener) this.fstop.addEventListener("click", this.stop.bind(this), false);
+            if (this.fstop.attachEvent) this.fstop.attachEvent("onclick", this.stop);
 
-            if (this.fresult.addEventListener) this.fresult.addEventListener("input", this.lotMaxlength.bind(this), false);
-            if (this.fresult.attachEvent) this.fresult.attachEvent("input", this.lotMaxlength);
+            if (this.fresult.addEventListener) this.fresult.addEventListener("input", this.validAction.bind(this), false);
+            if (this.fresult.attachEvent) this.fresult.attachEvent("input", this.validAction);
 
             if (this.freset.addEventListener) this.freset.addEventListener("click", this.lotReset.bind(this), false);
             if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
             this.getID = this.controller.memoize(this.getElement);
-            this.ul = this.getID("#set-lot");
+            this.ellot = this.getID("#set-lot");
+            this.elResult = this.getID("#mresult");
+            this.mres = this.getID("#my-result");
+            this.pres = this.getID("#pc-result");
+            this.fspan = this.getID("#helpers");
+            this.mspan = this.getID("#mresult");
         }
     }, {
-        key: "clickStart",
-        value: function clickStart(event) {
+        key: "start",
+        value: function start(event) {
             var data = {
                 variant: parseInt(this.fresult.value)
             };
@@ -334,26 +458,29 @@ var View = function () {
             this.controller.start(data);
         }
     }, {
-        key: "lotStop",
-        value: function lotStop() {}
+        key: "stop",
+        value: function stop(event) {
+            this.controller.stop();
+        }
     }, {
         key: "getElement",
         value: function getElement(selector) {
             return document.querySelector(selector);
         }
     }, {
-        key: "lotMaxlength",
-        value: function lotMaxlength() {}
-    }, {
-        key: "onAction",
-        value: function onAction() {
-            var pattern = /^[1-9]{5}/;
-
-            this.controller.validate(this, pattern);
+        key: "validAction",
+        value: function validAction(event) {
+            var data = {
+                target: event.target
+            };
+            this.controller.Maxlength(data);
+            this.controller.patterns(data);
         }
     }, {
         key: "lotReset",
-        value: function lotReset() {}
+        value: function lotReset() {
+            this.controller.reset();
+        }
     }]);
 
     return View;

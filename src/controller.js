@@ -5,8 +5,10 @@ class Controller {
 
         this.arr = [];
         this.intervalHandlerDigital = 0;
+        this.intervalHandlerResult = 0;
+        this.intervalHandlerWarning = 0
     };
-//надо поместить весь преобразующийся код в css чтобы было красиво!
+    //надо поместить весь преобразующийся код в css чтобы было красиво!
     start({ variant }) {
         this.fresult = this.view.fresult;
         console.log(this.fresult);
@@ -25,7 +27,7 @@ class Controller {
             return false;
         };
 
-        for (let i = 0, x = this.view.ul.childNodes; i < x.length; i++) {
+        for (let i = 0, x = this.view.ellot.childNodes; i < x.length; i++) {
             if (x[i].nodeType !== 1) {
                 continue;
             }
@@ -33,6 +35,76 @@ class Controller {
         };
 
         this.animeDigital();
+    };
+
+    stop() {
+        this.view.fstop.disabled = true;
+        this.view.fstart.disabled = true;
+        this.view.fstop.className = "disabled";
+        this.view.fresult.disabled = true;
+        this.view.freset.disabled = false;
+        this.view.freset.className = "my-btn start";
+        clearInterval(this.intervalHandlerDigital);
+
+        for (let i = 0; i < this.arr.length; i++) {
+            let flag = -1;
+            while (flag < 0) {
+                flag = Math.floor(Math.random() * 9) + 1;
+            }
+            this.arr[i].innerText = flag;
+        };
+        this.result();
+    };
+
+    result() {
+        let mvariant = + this.view.fresult.value;
+        let sumOfSquares = 0;
+        this.arr.forEach((x) => {
+            sumOfSquares += x.innerText;
+        });
+
+        let pcresult = parseInt(sumOfSquares, 10);
+        let message = (pcresult == mvariant) ? "Your is winner!" : "Try again!";
+        let flag = 0;
+
+        this.intervalHandlerResult = setInterval(() => {
+            flag++
+            this.view.elResult.innerHTML = message;
+            this.view.elResult.style.display = "block";
+            this.view.elResult.style.height = flag + "px";
+            this.view.elResult.style.paddingTop = flag / 2 + "px";
+
+            if (flag == 50) clearInterval(this.intervalHandlerResult);
+        }, 10)
+
+        let mli = document.createElement("li");
+        let pcli = document.createElement("li");
+        this.view.pres.appendChild(pcli).innerText += pcresult
+
+        let csumA = String(mvariant);
+        let csumB = String(pcresult);
+        let storA = [];
+        let storB = [];
+
+        for (let i = 0; i < 5; i++) {
+            storA.push(csumA[i]);
+            storB.push(csumB[i]);
+        };
+
+        for (let i = 0; i < 5; i++) {
+            let res = storA[i].indexOf(storB[i]) > -1;
+            let elem = document.createElement("b"),
+                text = document.createTextNode(storA[i]);
+            elem.appendChild(text);
+            if (res == true) {
+                elem.style.color = "#2ab676";
+            }
+            this.view.mres.appendChild(mli).appendChild(elem);
+        };
+
+        for (let i = 0; i < 5; i++) {
+            this.arr.pop();
+        };
     };
 
     animeDigital() {
@@ -52,26 +124,32 @@ class Controller {
         }, 50);
     };
 
+    Maxlength({ target }) {
+        if (target.hasAttribute("maxlength")) {
+            target.value = target.value.slice(0, target.getAttribute("maxlength"))
+        };
+    };
+
     //необходимо добавить stop! и порефакторить код!!!
 
     validate(elem, pattern) {
         //тут тоже все что можно запехнуть в css
         let res = elem.value.search(pattern);
-        let intervalHandlerWarning;
-        let fspan = getId("helpers");
+
+        let fspan = this.view.fspan;
         if (res == -1) {
             let flag = 0;
             elem.classList.remove("success");
             elem.classList.add("warning");
-            f.fstart.disabled = true;
-            f.fstart.className = "disabled";
+            this.view.fstart.disabled = true;
+            this.view.fstart.className = "disabled";
             if (fspan.style.height != "50px") {
-                intervalHandlerWarning = setInterval(() => {
+                this.intervalHandlerWarning = setInterval(() => {
                     flag++
                     fspan.style.display = "block";
                     fspan.style.height = flag + "px";
                     fspan.style.paddingTop = flag / 2 + "px";
-                    if (flag == 50) clearInterval(intervalHandlerWarning);
+                    if (flag == 50) clearInterval(this.intervalHandlerWarning);
                 }, 10);
             }
 
@@ -79,20 +157,47 @@ class Controller {
             let flag = 50;
             elem.classList.remove("warning");
             elem.classList.add("success");
-            f.fstart.disabled = false;
-            f.fstart.className = "my-btn start";
+            this.view.fstart.disabled = false;
+            this.view.fstart.className = "my-btn start";
 
-            intervalHandlerWarning = setInterval(() => {
+            this.intervalHandlerWarning = setInterval(() => {
                 flag--
                 fspan.style.height = flag + "px";
                 fspan.style.paddingTop = flag / 2 + "px";
                 if (flag == 0) {
                     fspan.style.display = "none";
-                    clearInterval(intervalHandlerWarning);
+                    clearInterval(this.intervalHandlerWarning);
                 }
             }, 10);
 
+        };
+    };
+
+    reset() {
+        for (let i = 0; i < this.arr.length; i++) {
+            this.arr[i].innerText = 0;
         }
+        this.view.fstart.className = "my-btn start";
+        this.view.fstart.disabled = false;
+        this.view.fresult.disabled = false;
+
+        if (this.view.mspan.style.height == "50px") {
+            let flag = 50;
+            this.intervalHandlerResult = setInterval(() => {
+                flag--
+                this.view.mspan.style.height = flag + "px";
+                this.view.mspan.style.paddingTop = flag / 2 + "px";
+                if (flag == 0) {
+                    this.view.mspan.style.display = "none";
+                    clearInterval(this.intervalHandlerResult);
+                }
+            }, 10);
+        };
+    };
+
+    patterns({ target }) {
+        let pattern = /^[1-9]{5}/;
+        this.validate(target, pattern);
     };
 
     memoize(fn) {
