@@ -146,29 +146,24 @@ var Controller = function () {
         }
     }, {
         key: "start",
-
-        //надо поместить весь преобразующийся код в css чтобы было красиво!
         value: function start(_ref) {
             var variant = _ref.variant;
 
-            this.fresult = this.view.fresult;
-            console.log(this.fresult);
+
             if (!isNaN(variant)) {
-                this.view.fstop.className = "my-btn start";
-                this.view.fstart.className = "disabled";
-                this.view.fresult.classList.remove("warning");
-                this.view.fstart.disabled = true;
+                this.view.fstop.className = this.view.ClasNameEnabled;
                 this.view.fstop.disabled = false;
-                this.view.freset.disabled = true;
-                this.view.freset.className = "disabled";
+                this.view.fstart.className = this.view.ClasNameDisabled;
+                this.view.fstart.disabled = true;
+                this.view.fresult.classList.remove(this.view.ClasListWarning);
             } else {
-                this.view.fresult.classList.remove("success");
-                this.view.fresult.classList.add("warning");
+                this.view.fresult.classList.remove(this.view.ClasListSuccess);
+                this.view.fresult.classList.add(this.view.ClasListWarning);
                 alert("Enter code lottery!");
                 return false;
             };
 
-            for (var i = 0, x = this.view.ellot.childNodes; i < x.length; i++) {
+            for (var i = 0, x = this.view.ulId.childNodes; i < x.length; i++) {
                 if (x[i].nodeType !== 1) {
                     continue;
                 }
@@ -182,10 +177,10 @@ var Controller = function () {
         value: function stop() {
             this.view.fstop.disabled = true;
             this.view.fstart.disabled = true;
-            this.view.fstop.className = "disabled";
+            this.view.fstop.className = this.view.ClasNameDisabled;
             this.view.fresult.disabled = true;
             this.view.freset.disabled = false;
-            this.view.freset.className = "my-btn start";
+            this.view.freset.className = this.view.ClasNameEnabled;
             clearInterval(this.intervalHandlerDigital);
 
             for (var i = 0; i < this.arr.length; i++) {
@@ -380,7 +375,7 @@ var Controller = function () {
 
 ;
 
-exports.default = Controller;
+exports.default = Controller; //1:40
 
 /***/ }),
 /* 3 */
@@ -425,9 +420,19 @@ var View = function () {
             this.fresult = this.form.fresult;
             this.freset = this.form.freset;
 
-            this.fstop.disabled = true;
-            this.fstop.className = "disabled";
+            //default settings
+            this.ClasNameEnabled = "my-btn start";
+            this.ClasNameDisabled = "disabled";
+            this.ClasListWarning = "warning";
+            this.ClasListSuccess = "success";
 
+            this.fstop.disabled = true;
+            this.fstop.className = this.ClasNameDisabled;
+
+            this.freset.disabled = true;
+            this.freset.className = this.ClasNameDisabled;
+
+            //Event
             if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
             if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
 
@@ -441,7 +446,7 @@ var View = function () {
             if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
             this.getID = this.controller.memoize(this.getElement);
-            this.ellot = this.getID("#set-lot");
+            this.ulId = this.getID("#set-lot");
             this.elResult = this.getID("#mresult");
             this.mres = this.getID("#my-result");
             this.pres = this.getID("#pc-result");

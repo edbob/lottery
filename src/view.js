@@ -4,7 +4,6 @@ class View {
         this.controller = controller;
 
         this.onLoad();
-
     };
 
     onLoad() {
@@ -22,9 +21,19 @@ class View {
         this.fresult = this.form.fresult;
         this.freset = this.form.freset;
 
-        this.fstop.disabled = true;
-        this.fstop.className = "disabled";
+        //default settings
+        this.ClasNameEnabled = "my-btn start";
+        this.ClasNameDisabled = "disabled";
+        this.ClasListWarning = "warning";
+        this.ClasListSuccess = "success"
 
+        this.fstop.disabled = true;
+        this.fstop.className = this.ClasNameDisabled;
+
+        this.freset.disabled = true;
+        this.freset.className = this.ClasNameDisabled;
+        
+        //Event
         if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
         if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
 
@@ -38,12 +47,13 @@ class View {
         if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
         this.getID = this.controller.memoize(this.getElement);
-        this.ellot = this.getID("#set-lot");
+        this.ulId = this.getID("#set-lot");
         this.elResult = this.getID("#mresult");
         this.mres = this.getID("#my-result");
         this.pres = this.getID("#pc-result");
         this.fspan = this.getID("#helpers");
         this.mspan = this.getID("#mresult");
+        
     };
 
    start(event) {

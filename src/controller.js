@@ -7,27 +7,25 @@ class Controller {
         this.intervalHandlerDigital = 0;
         this.intervalHandlerResult = 0;
         this.intervalHandlerWarning = 0
+
     };
-    //надо поместить весь преобразующийся код в css чтобы было красиво!
+
     start({ variant }) {
-        this.fresult = this.view.fresult;
-        console.log(this.fresult);
+
         if (!isNaN(variant)) {
-            this.view.fstop.className = "my-btn start";
-            this.view.fstart.className = "disabled";
-            this.view.fresult.classList.remove("warning");
-            this.view.fstart.disabled = true;
+            this.view.fstop.className = this.view.ClasNameEnabled;
             this.view.fstop.disabled = false;
-            this.view.freset.disabled = true;
-            this.view.freset.className = "disabled";
+            this.view.fstart.className =  this.view.ClasNameDisabled;
+            this.view.fstart.disabled = true;
+            this.view.fresult.classList.remove(this.view.ClasListWarning);
         } else {
-            this.view.fresult.classList.remove("success");
-            this.view.fresult.classList.add("warning");
+            this.view.fresult.classList.remove(this.view.ClasListSuccess);
+            this.view.fresult.classList.add(this.view.ClasListWarning);
             alert("Enter code lottery!");
             return false;
         };
 
-        for (let i = 0, x = this.view.ellot.childNodes; i < x.length; i++) {
+        for (let i = 0, x = this.view.ulId.childNodes; i < x.length; i++) {
             if (x[i].nodeType !== 1) {
                 continue;
             }
@@ -40,10 +38,10 @@ class Controller {
     stop() {
         this.view.fstop.disabled = true;
         this.view.fstart.disabled = true;
-        this.view.fstop.className = "disabled";
+        this.view.fstop.className = this.view.ClasNameDisabled;
         this.view.fresult.disabled = true;
         this.view.freset.disabled = false;
-        this.view.freset.className = "my-btn start";
+        this.view.freset.className = this.view.ClasNameEnabled;
         clearInterval(this.intervalHandlerDigital);
 
         for (let i = 0; i < this.arr.length; i++) {
@@ -215,4 +213,4 @@ class Controller {
 
 };
 
-export default Controller;
+export default Controller;//1:40
