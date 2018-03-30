@@ -1,6 +1,8 @@
+const data = require("../db/db.json");
 class Model {
-    constructor(){
-        //...code
+    constructor() {
+        this.correctly = data.correctly,
+        this.incorrectly = data.incorrectly
     };
 };
 

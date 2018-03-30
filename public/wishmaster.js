@@ -74,11 +74,11 @@ var _model = __webpack_require__(1);
 
 var _model2 = _interopRequireDefault(_model);
 
-var _controller = __webpack_require__(2);
+var _controller = __webpack_require__(3);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _view = __webpack_require__(3);
+var _view = __webpack_require__(4);
 
 var _view2 = _interopRequireDefault(_view);
 
@@ -103,10 +103,12 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Model = function Model() {
-    //...code
+var data = __webpack_require__(2);
 
+var Model = function Model() {
     _classCallCheck(this, Model);
+
+    this.correctly = data.correctly, this.incorrectly = data.incorrectly;
 };
 
 ;
@@ -115,6 +117,12 @@ exports.default = Model;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = {"correctly":"Your is winner!","incorrectly":"Try again!"}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -204,22 +212,20 @@ var Controller = function () {
             });
 
             var pcresult = parseInt(sumOfSquares, 10);
-            var message = pcresult == mvariant ? "Your is winner!" : "Try again!";
+            var result = pcresult == mvariant ? this.model.correctly : this.model.incorrectly;
             var flag = 0;
 
             this.intervalHandlerResult = setInterval(function () {
                 flag++;
-                _this.view.elResult.innerHTML = message;
-                _this.view.elResult.style.display = "block";
-                _this.view.elResult.style.height = flag + "px";
-                _this.view.elResult.style.paddingTop = flag / 2 + "px";
+                _this.view.elResult.innerHTML = result;
+                _this.view.elResult.style.display = _this.view.styleSettings.display;
+                _this.view.elResult.style.height = flag + _this.view.styleSettings.measure;
+                _this.view.elResult.style.paddingTop = flag / 2 + _this.view.styleSettings.measure;
 
                 if (flag == 50) clearInterval(_this.intervalHandlerResult);
             }, 10);
 
-            var mli = document.createElement("li");
-            var pcli = document.createElement("li");
-            this.view.pres.appendChild(pcli).innerText += pcresult;
+            this.view.pcResultEl.appendChild(this.view.pcli).innerText += pcresult;
 
             var csumA = String(mvariant);
             var csumB = String(pcresult);
@@ -233,13 +239,12 @@ var Controller = function () {
 
             for (var _i = 0; _i < 5; _i++) {
                 var res = storA[_i].indexOf(storB[_i]) > -1;
-                var elem = document.createElement("b"),
-                    text = document.createTextNode(storA[_i]);
-                elem.appendChild(text);
+                var userResults = document.createTextNode(storA[_i]);
+                this.view.elementB.appendChild(userResults);
                 if (res == true) {
-                    elem.style.color = "#2ab676";
+                    this.view.elementB.style.color = this.view.correctlyColor;
                 }
-                this.view.mres.appendChild(mli).appendChild(elem);
+                this.view.userResultEl.appendChild(this.view.userli).appendChild(this.view.elementB);
             };
 
             for (var _i2 = 0; _i2 < 5; _i2++) {
@@ -277,10 +282,6 @@ var Controller = function () {
         }
     }, {
         key: "validate",
-
-
-        //необходимо добавить stop! и порефакторить код!!!
-
         value: function validate(elem, pattern) {
             var _this3 = this;
 
@@ -333,14 +334,14 @@ var Controller = function () {
             this.view.fstart.disabled = false;
             this.view.fresult.disabled = false;
 
-            if (this.view.mspan.style.height == "50px") {
+            if (this.view.elResult.style.height == "50px") {
                 var flag = 50;
                 this.intervalHandlerResult = setInterval(function () {
                     flag--;
-                    _this4.view.mspan.style.height = flag + "px";
-                    _this4.view.mspan.style.paddingTop = flag / 2 + "px";
+                    _this4.view.elResult.style.height = flag + "px";
+                    _this4.view.elResult.style.paddingTop = flag / 2 + "px";
                     if (flag == 0) {
-                        _this4.view.mspan.style.display = "none";
+                        _this4.view.elResult.style.display = "none";
                         clearInterval(_this4.intervalHandlerResult);
                     }
                 }, 10);
@@ -378,7 +379,7 @@ var Controller = function () {
 exports.default = Controller; //1:40
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,6 +433,12 @@ var View = function () {
             this.freset.disabled = true;
             this.freset.className = this.ClasNameDisabled;
 
+            this.styleSettings = {
+                measure: "px",
+                display: "block"
+
+            };
+
             //Event
             if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
             if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
@@ -445,13 +452,19 @@ var View = function () {
             if (this.freset.addEventListener) this.freset.addEventListener("click", this.lotReset.bind(this), false);
             if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
+            //Find id 
             this.getID = this.controller.memoize(this.getElement);
             this.ulId = this.getID("#set-lot");
             this.elResult = this.getID("#mresult");
-            this.mres = this.getID("#my-result");
-            this.pres = this.getID("#pc-result");
+            this.userResultEl = this.getID("#user-result");
+            this.pcResultEl = this.getID("#pc-result");
             this.fspan = this.getID("#helpers");
-            this.mspan = this.getID("#mresult");
+            //create element
+            this.userli = document.createElement("li");
+            this.pcli = document.createElement("li");
+            this.elementB = document.createElement("b");
+            //color
+            this.correctlyColor = "#2ab676";
         }
     }, {
         key: "start",

@@ -6,8 +6,7 @@ class Controller {
         this.arr = [];
         this.intervalHandlerDigital = 0;
         this.intervalHandlerResult = 0;
-        this.intervalHandlerWarning = 0
-
+        this.intervalHandlerWarning = 0;
     };
 
     start({ variant }) {
@@ -62,22 +61,20 @@ class Controller {
         });
 
         let pcresult = parseInt(sumOfSquares, 10);
-        let message = (pcresult == mvariant) ? "Your is winner!" : "Try again!";
+        let result = (pcresult == mvariant) ? this.model.correctly : this.model.incorrectly;
         let flag = 0;
 
         this.intervalHandlerResult = setInterval(() => {
             flag++
-            this.view.elResult.innerHTML = message;
-            this.view.elResult.style.display = "block";
-            this.view.elResult.style.height = flag + "px";
-            this.view.elResult.style.paddingTop = flag / 2 + "px";
+            this.view.elResult.innerHTML = result;
+            this.view.elResult.style.display = this.view.styleSettings.display;
+            this.view.elResult.style.height = flag + this.view.styleSettings.measure;
+            this.view.elResult.style.paddingTop = flag / 2 + this.view.styleSettings.measure;
 
             if (flag == 50) clearInterval(this.intervalHandlerResult);
         }, 10)
 
-        let mli = document.createElement("li");
-        let pcli = document.createElement("li");
-        this.view.pres.appendChild(pcli).innerText += pcresult
+        this.view.pcResultEl.appendChild(this.view.pcli).innerText += pcresult
 
         let csumA = String(mvariant);
         let csumB = String(pcresult);
@@ -91,13 +88,12 @@ class Controller {
 
         for (let i = 0; i < 5; i++) {
             let res = storA[i].indexOf(storB[i]) > -1;
-            let elem = document.createElement("b"),
-                text = document.createTextNode(storA[i]);
-            elem.appendChild(text);
+                let userResults = document.createTextNode(storA[i]);
+                this.view.elementB.appendChild(userResults);
             if (res == true) {
-                elem.style.color = "#2ab676";
+                this.view.elementB.style.color = this.view.correctlyColor;
             }
-            this.view.mres.appendChild(mli).appendChild(elem);
+            this.view.userResultEl.appendChild(this.view.userli).appendChild(this.view.elementB);
         };
 
         for (let i = 0; i < 5; i++) {
@@ -127,8 +123,6 @@ class Controller {
             target.value = target.value.slice(0, target.getAttribute("maxlength"))
         };
     };
-
-    //необходимо добавить stop! и порефакторить код!!!
 
     validate(elem, pattern) {
         //тут тоже все что можно запехнуть в css
@@ -179,14 +173,14 @@ class Controller {
         this.view.fstart.disabled = false;
         this.view.fresult.disabled = false;
 
-        if (this.view.mspan.style.height == "50px") {
+        if (this.view.elResult.style.height == "50px") {
             let flag = 50;
             this.intervalHandlerResult = setInterval(() => {
                 flag--
-                this.view.mspan.style.height = flag + "px";
-                this.view.mspan.style.paddingTop = flag / 2 + "px";
+                this.view.elResult.style.height = flag + "px";
+                this.view.elResult.style.paddingTop = flag / 2 + "px";
                 if (flag == 0) {
-                    this.view.mspan.style.display = "none";
+                    this.view.elResult.style.display = "none";
                     clearInterval(this.intervalHandlerResult);
                 }
             }, 10);

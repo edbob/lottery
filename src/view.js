@@ -32,7 +32,13 @@ class View {
 
         this.freset.disabled = true;
         this.freset.className = this.ClasNameDisabled;
-        
+
+        this.styleSettings = {
+            measure: "px",
+            display: "block",
+
+        };
+
         //Event
         if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
         if (this.fstart.attachEvent) this.fstart.attachEvent("onclick", this.start);
@@ -46,14 +52,19 @@ class View {
         if (this.freset.addEventListener) this.freset.addEventListener("click", this.lotReset.bind(this), false);
         if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
+        //Find id 
         this.getID = this.controller.memoize(this.getElement);
         this.ulId = this.getID("#set-lot");
         this.elResult = this.getID("#mresult");
-        this.mres = this.getID("#my-result");
-        this.pres = this.getID("#pc-result");
+        this.userResultEl = this.getID("#user-result");
+        this.pcResultEl = this.getID("#pc-result");
         this.fspan = this.getID("#helpers");
-        this.mspan = this.getID("#mresult");
-        
+        //create element
+        this.userli = document.createElement("li");
+        this.pcli = document.createElement("li");
+        this.elementB = document.createElement("b");
+        //color
+        this.correctlyColor = "#2ab676";
     };
 
    start(event) {
