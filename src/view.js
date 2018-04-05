@@ -22,22 +22,15 @@ class View {
         this.freset = this.form.freset;
 
         //default settings
-        this.ClasNameEnabled = "my-btn start";
-        this.ClasNameDisabled = "disabled";
-        this.ClasListWarning = "warning";
-        this.ClasListSuccess = "success"
+        this.ClasNameTurnsOn = "TurnsOn";
+        this.ClasNameTurnsOff = "TurnsOff";
 
+        this.fstart.className += this.ClasNameTurnsOn;
         this.fstop.disabled = true;
-        this.fstop.className = this.ClasNameDisabled;
+        this.fstop.className = this.ClasNameTurnsOff;
 
         this.freset.disabled = true;
-        this.freset.className = this.ClasNameDisabled;
-
-        this.styleSettings = {
-            measure: "px",
-            display: "block",
-
-        };
+        this.freset.className += this.ClasNameTurnsOff;
 
         //Event
         if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
@@ -56,8 +49,8 @@ class View {
         this.getID = this.controller.memoize(this.getElement);
         this.ulId = this.getID("#set-lot");
         this.elResult = this.getID("#mresult");
-        this.userResultEl = this.getID("#user-result");
-        this.pcResultEl = this.getID("#pc-result");
+        this.userResultElement = this.getID("#user-result");
+        this.pcResultElement = this.getID("#pc-result");
         this.fspan = this.getID("#helpers");
         //create element
         this.userli = document.createElement("li");

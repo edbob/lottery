@@ -159,14 +159,14 @@ var Controller = function () {
 
 
             if (!isNaN(variant)) {
-                this.view.fstop.className = this.view.ClasNameEnabled;
+                this.view.fstop.className = this.view.ClasNameTurnsOn;
                 this.view.fstop.disabled = false;
-                this.view.fstart.className = this.view.ClasNameDisabled;
+                this.view.fstart.className = this.view.ClasNameTurnsOff;
                 this.view.fstart.disabled = true;
-                this.view.fresult.classList.remove(this.view.ClasListWarning);
+                this.view.fresult.classList.remove("warning");
             } else {
-                this.view.fresult.classList.remove(this.view.ClasListSuccess);
-                this.view.fresult.classList.add(this.view.ClasListWarning);
+                this.view.fresult.classList.remove("success");
+                this.view.fresult.classList.add("warning");
                 alert("Enter code lottery!");
                 return false;
             };
@@ -185,10 +185,10 @@ var Controller = function () {
         value: function stop() {
             this.view.fstop.disabled = true;
             this.view.fstart.disabled = true;
-            this.view.fstop.className = this.view.ClasNameDisabled;
+            this.view.fstop.className = this.view.ClasNameTurnsOff;
             this.view.fresult.disabled = true;
             this.view.freset.disabled = false;
-            this.view.freset.className = this.view.ClasNameEnabled;
+            this.view.freset.className = this.view.ClasNameTurnsOn;
             clearInterval(this.intervalHandlerDigital);
 
             for (var i = 0; i < this.arr.length; i++) {
@@ -205,46 +205,51 @@ var Controller = function () {
         value: function result() {
             var _this = this;
 
-            var mvariant = +this.view.fresult.value;
+            var userVariantSumm = +this.view.fresult.value;
             var sumOfSquares = 0;
             this.arr.forEach(function (x) {
                 sumOfSquares += x.innerText;
             });
 
-            var pcresult = parseInt(sumOfSquares, 10);
-            var result = pcresult == mvariant ? this.model.correctly : this.model.incorrectly;
+            var pcVariantSumm = parseInt(sumOfSquares, 10);
+            var result = pcVariantSumm === userVariantSumm ? this.model.correctly : this.model.incorrectly;
             var flag = 0;
 
             this.intervalHandlerResult = setInterval(function () {
                 flag++;
                 _this.view.elResult.innerHTML = result;
-                _this.view.elResult.style.display = _this.view.styleSettings.display;
-                _this.view.elResult.style.height = flag + _this.view.styleSettings.measure;
-                _this.view.elResult.style.paddingTop = flag / 2 + _this.view.styleSettings.measure;
+                _this.view.elResult.style.display = "display";
+                _this.view.elResult.style.height = flag + "px";
+                _this.view.elResult.style.paddingTop = flag / 2 + "px";
 
                 if (flag == 50) clearInterval(_this.intervalHandlerResult);
             }, 10);
 
-            this.view.pcResultEl.appendChild(this.view.pcli).innerText += pcresult;
+            this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
 
-            var csumA = String(mvariant);
-            var csumB = String(pcresult);
-            var storA = [];
-            var storB = [];
+            this.sortResult(userVariantSumm, pcVariantSumm);
+        }
+    }, {
+        key: "sortResult",
+        value: function sortResult(userVariantSumm, pcVariantSumm) {
+            var userSum = String(userVariantSumm);
+            var pcSum = String(pcVariantSumm);
+            var userStored = [];
+            var pcStored = [];
 
             for (var i = 0; i < 5; i++) {
-                storA.push(csumA[i]);
-                storB.push(csumB[i]);
+                userStored.push(userSum[i]);
+                pcStored.push(pcSum[i]);
             };
 
             for (var _i = 0; _i < 5; _i++) {
-                var res = storA[_i].indexOf(storB[_i]) > -1;
-                var userResults = document.createTextNode(storA[_i]);
+                var res = userStored[_i].indexOf(pcStored[_i]) > -1;
+                var userResults = document.createTextNode(userStored[_i]);
                 this.view.elementB.appendChild(userResults);
                 if (res == true) {
                     this.view.elementB.style.color = this.view.correctlyColor;
                 }
-                this.view.userResultEl.appendChild(this.view.userli).appendChild(this.view.elementB);
+                this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
             };
 
             for (var _i2 = 0; _i2 < 5; _i2++) {
@@ -273,6 +278,9 @@ var Controller = function () {
         }
     }, {
         key: "Maxlength",
+
+
+        //number of input values
         value: function Maxlength(_ref2) {
             var target = _ref2.target;
 
@@ -281,20 +289,21 @@ var Controller = function () {
             };
         }
     }, {
-        key: "validate",
-        value: function validate(elem, pattern) {
+        key: "dropHints",
+
+
+        //drop-down hint menu
+        value: function dropHints(element, pattern) {
             var _this3 = this;
 
-            //тут тоже все что можно запехнуть в css
-            var res = elem.value.search(pattern);
-
+            var res = element.value.search(pattern);
             var fspan = this.view.fspan;
             if (res == -1) {
                 var flag = 0;
-                elem.classList.remove("success");
-                elem.classList.add("warning");
+                element.classList.remove("success");
+                element.classList.add("warning");
                 this.view.fstart.disabled = true;
-                this.view.fstart.className = "disabled";
+                this.view.fstart.className = this.view.ClasNameTurnsOff;
                 if (fspan.style.height != "50px") {
                     this.intervalHandlerWarning = setInterval(function () {
                         flag++;
@@ -306,10 +315,10 @@ var Controller = function () {
                 }
             } else {
                 var _flag = 50;
-                elem.classList.remove("warning");
-                elem.classList.add("success");
+                element.classList.remove("warning");
+                element.classList.add("success");
                 this.view.fstart.disabled = false;
-                this.view.fstart.className = "my-btn start";
+                this.view.fstart.className = this.view.ClasNameTurnsOn;
 
                 this.intervalHandlerWarning = setInterval(function () {
                     _flag--;
@@ -330,7 +339,7 @@ var Controller = function () {
             for (var i = 0; i < this.arr.length; i++) {
                 this.arr[i].innerText = 0;
             }
-            this.view.fstart.className = "my-btn start";
+            this.view.fstart.className += this.view.ClasNameTurnsOn;
             this.view.fstart.disabled = false;
             this.view.fresult.disabled = false;
 
@@ -353,7 +362,7 @@ var Controller = function () {
             var target = _ref3.target;
 
             var pattern = /^[1-9]{5}/;
-            this.validate(target, pattern);
+            this.dropHints(target, pattern);
         }
     }, {
         key: "memoize",
@@ -422,22 +431,15 @@ var View = function () {
             this.freset = this.form.freset;
 
             //default settings
-            this.ClasNameEnabled = "my-btn start";
-            this.ClasNameDisabled = "disabled";
-            this.ClasListWarning = "warning";
-            this.ClasListSuccess = "success";
+            this.ClasNameTurnsOn = "TurnsOn";
+            this.ClasNameTurnsOff = "TurnsOff";
 
+            this.fstart.className += this.ClasNameTurnsOn;
             this.fstop.disabled = true;
-            this.fstop.className = this.ClasNameDisabled;
+            this.fstop.className = this.ClasNameTurnsOff;
 
             this.freset.disabled = true;
-            this.freset.className = this.ClasNameDisabled;
-
-            this.styleSettings = {
-                measure: "px",
-                display: "block"
-
-            };
+            this.freset.className += this.ClasNameTurnsOff;
 
             //Event
             if (this.fstart.addEventListener) this.fstart.addEventListener("click", this.start.bind(this), false);
@@ -456,8 +458,8 @@ var View = function () {
             this.getID = this.controller.memoize(this.getElement);
             this.ulId = this.getID("#set-lot");
             this.elResult = this.getID("#mresult");
-            this.userResultEl = this.getID("#user-result");
-            this.pcResultEl = this.getID("#pc-result");
+            this.userResultElement = this.getID("#user-result");
+            this.pcResultElement = this.getID("#pc-result");
             this.fspan = this.getID("#helpers");
             //create element
             this.userli = document.createElement("li");

@@ -12,14 +12,14 @@ class Controller {
     start({ variant }) {
 
         if (!isNaN(variant)) {
-            this.view.fstop.className = this.view.ClasNameEnabled;
+            this.view.fstop.className = this.view.ClasNameTurnsOn;
             this.view.fstop.disabled = false;
-            this.view.fstart.className =  this.view.ClasNameDisabled;
+            this.view.fstart.className = this.view.ClasNameTurnsOff;
             this.view.fstart.disabled = true;
-            this.view.fresult.classList.remove(this.view.ClasListWarning);
+            this.view.fresult.classList.remove("warning");
         } else {
-            this.view.fresult.classList.remove(this.view.ClasListSuccess);
-            this.view.fresult.classList.add(this.view.ClasListWarning);
+            this.view.fresult.classList.remove("success");
+            this.view.fresult.classList.add("warning");
             alert("Enter code lottery!");
             return false;
         };
@@ -37,10 +37,10 @@ class Controller {
     stop() {
         this.view.fstop.disabled = true;
         this.view.fstart.disabled = true;
-        this.view.fstop.className = this.view.ClasNameDisabled;
+        this.view.fstop.className = this.view.ClasNameTurnsOff;
         this.view.fresult.disabled = true;
         this.view.freset.disabled = false;
-        this.view.freset.className = this.view.ClasNameEnabled;
+        this.view.freset.className = this.view.ClasNameTurnsOn;
         clearInterval(this.intervalHandlerDigital);
 
         for (let i = 0; i < this.arr.length; i++) {
@@ -54,46 +54,50 @@ class Controller {
     };
 
     result() {
-        let mvariant = + this.view.fresult.value;
+        let userVariantSumm = + this.view.fresult.value;
         let sumOfSquares = 0;
         this.arr.forEach((x) => {
             sumOfSquares += x.innerText;
         });
 
-        let pcresult = parseInt(sumOfSquares, 10);
-        let result = (pcresult == mvariant) ? this.model.correctly : this.model.incorrectly;
+        let pcVariantSumm = parseInt(sumOfSquares, 10);
+        let result = (pcVariantSumm === userVariantSumm) ? this.model.correctly : this.model.incorrectly;
         let flag = 0;
 
         this.intervalHandlerResult = setInterval(() => {
             flag++
             this.view.elResult.innerHTML = result;
-            this.view.elResult.style.display = this.view.styleSettings.display;
-            this.view.elResult.style.height = flag + this.view.styleSettings.measure;
-            this.view.elResult.style.paddingTop = flag / 2 + this.view.styleSettings.measure;
+            this.view.elResult.style.display = "display";
+            this.view.elResult.style.height = flag + "px";
+            this.view.elResult.style.paddingTop = flag / 2 + "px";
 
             if (flag == 50) clearInterval(this.intervalHandlerResult);
-        }, 10)
+        }, 10);
 
-        this.view.pcResultEl.appendChild(this.view.pcli).innerText += pcresult
+        this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
 
-        let csumA = String(mvariant);
-        let csumB = String(pcresult);
-        let storA = [];
-        let storB = [];
+        this.sortResult(userVariantSumm, pcVariantSumm);
+    };
+
+    sortResult(userVariantSumm, pcVariantSumm) {
+        let userSum = String(userVariantSumm);
+        let pcSum = String(pcVariantSumm);
+        let userStored = [];
+        let pcStored = [];
 
         for (let i = 0; i < 5; i++) {
-            storA.push(csumA[i]);
-            storB.push(csumB[i]);
+            userStored.push(userSum[i]);
+            pcStored.push(pcSum[i]);
         };
 
         for (let i = 0; i < 5; i++) {
-            let res = storA[i].indexOf(storB[i]) > -1;
-                let userResults = document.createTextNode(storA[i]);
-                this.view.elementB.appendChild(userResults);
+            let res = userStored[i].indexOf(pcStored[i]) > -1;
+            let userResults = document.createTextNode(userStored[i]);
+            this.view.elementB.appendChild(userResults);
             if (res == true) {
                 this.view.elementB.style.color = this.view.correctlyColor;
             }
-            this.view.userResultEl.appendChild(this.view.userli).appendChild(this.view.elementB);
+            this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
         };
 
         for (let i = 0; i < 5; i++) {
@@ -118,23 +122,23 @@ class Controller {
         }, 50);
     };
 
+//number of input values
     Maxlength({ target }) {
         if (target.hasAttribute("maxlength")) {
             target.value = target.value.slice(0, target.getAttribute("maxlength"))
         };
     };
 
-    validate(elem, pattern) {
-        //тут тоже все что можно запехнуть в css
-        let res = elem.value.search(pattern);
-
+//drop-down hint menu
+    dropHints(element, pattern) {
+        let res = element.value.search(pattern);
         let fspan = this.view.fspan;
         if (res == -1) {
             let flag = 0;
-            elem.classList.remove("success");
-            elem.classList.add("warning");
+            element.classList.remove("success");
+            element.classList.add("warning");
             this.view.fstart.disabled = true;
-            this.view.fstart.className = "disabled";
+            this.view.fstart.className = this.view.ClasNameTurnsOff;
             if (fspan.style.height != "50px") {
                 this.intervalHandlerWarning = setInterval(() => {
                     flag++
@@ -147,10 +151,10 @@ class Controller {
 
         } else {
             let flag = 50;
-            elem.classList.remove("warning");
-            elem.classList.add("success");
+            element.classList.remove("warning");
+            element.classList.add("success");
             this.view.fstart.disabled = false;
-            this.view.fstart.className = "my-btn start";
+            this.view.fstart.className = this.view.ClasNameTurnsOn;
 
             this.intervalHandlerWarning = setInterval(() => {
                 flag--
@@ -169,7 +173,7 @@ class Controller {
         for (let i = 0; i < this.arr.length; i++) {
             this.arr[i].innerText = 0;
         }
-        this.view.fstart.className = "my-btn start";
+        this.view.fstart.className += this.view.ClasNameTurnsOn;
         this.view.fstart.disabled = false;
         this.view.fresult.disabled = false;
 
@@ -189,7 +193,7 @@ class Controller {
 
     patterns({ target }) {
         let pattern = /^[1-9]{5}/;
-        this.validate(target, pattern);
+        this.dropHints(target, pattern);
     };
 
     memoize(fn) {

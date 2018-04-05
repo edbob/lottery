@@ -40,11 +40,19 @@ nav {
     cursor: pointer;
 }
 
-.disabled {
+.btn-default {
     padding: 20px 60px;
     color: #ffffff;
     border: none;
     font-size: 34px;
+    cursor: pointer;
+}
+
+.TurnsOff {
+    /* padding: 20px 60px;
+    color: #ffffff;
+    border: none;
+    font-size: 34px; */
     cursor: not-allowed;
     filter: alpha(opacity=65);
     -webkit-box-shadow: none;
@@ -52,12 +60,12 @@ nav {
     opacity: .65;
 }
 
-.disabled input:hover,
-.disabled input:focus {
+.TurnsOff input:hover,
+.TurnsOff input:focus {
     background-color: none;
 }
 
-.start {
+.TurnsOn {
     background-color: #2ab676;
 }
 
