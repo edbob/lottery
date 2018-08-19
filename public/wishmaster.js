@@ -150,7 +150,7 @@ var Controller = function () {
             this.arr = [];
             this.intervalHandlerDigital = 0;
             this.intervalHandlerResult = 0;
-            this.intervalHandlerWarning = 0;
+            // this.intervalHandlerWarning = 0;
         }
     }, {
         key: "start",
@@ -215,14 +215,14 @@ var Controller = function () {
             var result = pcVariantSumm === userVariantSumm ? this.model.correctly : this.model.incorrectly;
             var flag = 0;
 
-            this.intervalHandlerResult = setInterval(function () {
+            var intervalHandlerResult = setInterval(function () {
                 flag++;
                 _this.view.elResult.innerHTML = result;
                 _this.view.elResult.style.display = "display";
                 _this.view.elResult.style.height = flag + "px";
                 _this.view.elResult.style.paddingTop = flag / 2 + "px";
 
-                if (flag == 50) clearInterval(_this.intervalHandlerResult);
+                if (flag == 50) clearInterval(intervalHandlerResult);
             }, 10);
 
             this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
@@ -294,8 +294,6 @@ var Controller = function () {
 
         //drop-down hint menu
         value: function dropHints(element, pattern) {
-            var _this3 = this;
-
             var res = element.value.search(pattern);
             var fspan = this.getID("helpers");
             var flag = 0;
@@ -305,13 +303,12 @@ var Controller = function () {
                 this.view.fstart.disabled = true;
                 this.view.fstart.className = this.view.ClasNameTurnsOff;
                 if (fspan.style.height !== "50px") {
-                    this.intervalHandlerWarning = setInterval(function () {
-                        //this.view.fspan.style.display = "block";
+                    var intervalHandlerWarning = setInterval(function () {
                         fspan.style.display = "block";
                         flag++;
                         fspan.style.height = flag + "px";
                         fspan.style.paddingTop = flag / 2 + "px";
-                        if (flag == 50) clearInterval(_this3.intervalHandlerWarning);
+                        if (flag == 50) clearInterval(intervalHandlerWarning);
                     }, 10);
                 }
             } else {
@@ -321,13 +318,14 @@ var Controller = function () {
                 this.view.fstart.className = this.view.ClasNameTurnsOn;
                 var elementSum = parseInt(element.value);
                 if (elementSum != 0) {
-                    this.intervalHandlerWarning = setInterval(function () {
-                        flag--;
-                        fspan.style.height = flag + "px";
-                        fspan.style.paddingTop = flag / 2 + "px";
-                        if (flag == 0) {
+                    var _intervalHandlerWarning = setInterval(function () {
+                        var sumFlag = parseInt(fspan.style.height);
+                        sumFlag--;
+                        fspan.style.height = sumFlag + "px";
+                        fspan.style.paddingTop = sumFlag / 2 + "px";
+                        if (sumFlag == 0) {
                             fspan.style.display = "none";
-                            clearInterval(_this3.intervalHandlerWarning);
+                            clearInterval(_intervalHandlerWarning);
                         }
                     }, 10);
                 }
@@ -336,7 +334,7 @@ var Controller = function () {
     }, {
         key: "reset",
         value: function reset() {
-            var _this4 = this;
+            var _this3 = this;
 
             for (var i = 0; i < this.arr.length; i++) {
                 this.arr[i].innerText = 0;
@@ -349,11 +347,11 @@ var Controller = function () {
                 var flag = 50;
                 this.intervalHandlerResult = setInterval(function () {
                     flag--;
-                    _this4.view.elResult.style.height = flag + "px";
-                    _this4.view.elResult.style.paddingTop = flag / 2 + "px";
+                    _this3.view.elResult.style.height = flag + "px";
+                    _this3.view.elResult.style.paddingTop = flag / 2 + "px";
                     if (flag == 0) {
-                        _this4.view.elResult.style.display = "none";
-                        clearInterval(_this4.intervalHandlerResult);
+                        _this3.view.elResult.style.display = "none";
+                        clearInterval(_this3.intervalHandlerResult);
                     }
                 }, 10);
             };

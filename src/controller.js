@@ -6,7 +6,7 @@ class Controller {
         this.arr = [];
         this.intervalHandlerDigital = 0;
         this.intervalHandlerResult = 0;
-        this.intervalHandlerWarning = 0;
+       // this.intervalHandlerWarning = 0;
     };
 
     start({ variant }) {
@@ -64,14 +64,14 @@ class Controller {
         let result = (pcVariantSumm === userVariantSumm) ? this.model.correctly : this.model.incorrectly;
         let flag = 0;
 
-        this.intervalHandlerResult = setInterval(() => {
+        let intervalHandlerResult = setInterval(() => {
             flag++
             this.view.elResult.innerHTML = result;
             this.view.elResult.style.display = "display";
             this.view.elResult.style.height = flag + "px";
             this.view.elResult.style.paddingTop = flag / 2 + "px";
 
-            if (flag == 50) clearInterval(this.intervalHandlerResult);
+            if (flag == 50) clearInterval(intervalHandlerResult);
         }, 10);
 
         this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
@@ -140,13 +140,12 @@ class Controller {
             this.view.fstart.disabled = true;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
             if (fspan.style.height !== "50px") {
-                this.intervalHandlerWarning = setInterval(() => {
-                    //this.view.fspan.style.display = "block";
+                let intervalHandlerWarning = setInterval(() => {
                     fspan.style.display = "block";
                     flag++;
                     fspan.style.height = flag + "px";
                     fspan.style.paddingTop = flag / 2 + "px";
-                    if (flag == 50) clearInterval(this.intervalHandlerWarning);
+                    if (flag == 50) clearInterval(intervalHandlerWarning);
                 }, 10);
             }
         } else {
@@ -156,13 +155,14 @@ class Controller {
             this.view.fstart.className = this.view.ClasNameTurnsOn;
             let elementSum = parseInt(element.value);
             if (elementSum != 0) {
-                this.intervalHandlerWarning = setInterval(() => {
-                    flag--
-                    fspan.style.height = flag + "px";
-                    fspan.style.paddingTop = flag / 2 + "px";
-                    if (flag == 0) {
+                let intervalHandlerWarning = setInterval(() => {
+                    let sumFlag = parseInt(fspan.style.height);
+                    sumFlag--
+                    fspan.style.height = sumFlag + "px";
+                    fspan.style.paddingTop = sumFlag / 2 + "px";
+                    if (sumFlag == 0) {
                         fspan.style.display = "none";
-                        clearInterval(this.intervalHandlerWarning);
+                        clearInterval(intervalHandlerWarning);
                     }
                 }, 10);
             }
