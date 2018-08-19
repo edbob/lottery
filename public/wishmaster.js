@@ -247,7 +247,7 @@ var Controller = function () {
                 var userResults = document.createTextNode(userStored[_i]);
                 this.view.elementB.appendChild(userResults);
                 if (res == true) {
-                    this.view.elementB.style.color = this.view.correctlyColor;
+                    this.view.elementB.style.color = "#2ab676";
                 }
                 this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
             };
@@ -304,12 +304,14 @@ var Controller = function () {
                 element.classList.add("warning");
                 this.view.fstart.disabled = true;
                 this.view.fstart.className = this.view.ClasNameTurnsOff;
-                if (fspan.style.height != "50px") {
+                if (fspan.height !== "50px") {
+                    //ошибка не видет style
                     this.intervalHandlerWarning = setInterval(function () {
                         flag++;
-                        fspan.style.display = "block";
-                        fspan.style.height = flag + "px";
-                        fspan.style.paddingTop = flag / 2 + "px";
+                        console.log(fspan.display);
+                        fspan.display = "block";
+                        fspan.height = flag + "px";
+                        fspan.paddingTop = flag / 2 + "px";
                         if (flag == 50) clearInterval(_this3.intervalHandlerWarning);
                     }, 10);
                 }
@@ -385,7 +387,7 @@ var Controller = function () {
 
 ;
 
-exports.default = Controller; //1:40
+exports.default = Controller;
 
 /***/ }),
 /* 4 */
@@ -403,6 +405,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var View = function () {
+    //Недолжно быть логики только взоимодействие с юзер интерфейсом
     function View(model, controller) {
         _classCallCheck(this, View);
 
@@ -431,8 +434,8 @@ var View = function () {
             this.freset = this.form.freset;
 
             //default settings
-            this.ClasNameTurnsOn = "TurnsOn";
-            this.ClasNameTurnsOff = "TurnsOff";
+            this.ClasNameTurnsOn = "btn-default TurnsOn";
+            this.ClasNameTurnsOff = "btn-default TurnsOff";
 
             this.fstart.className += this.ClasNameTurnsOn;
             this.fstop.disabled = true;
@@ -455,18 +458,16 @@ var View = function () {
             if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
             //Find id 
-            this.getID = this.controller.memoize(this.getElement);
-            this.ulId = this.getID("#set-lot");
-            this.elResult = this.getID("#mresult");
-            this.userResultElement = this.getID("#user-result");
-            this.pcResultElement = this.getID("#pc-result");
-            this.fspan = this.getID("#helpers");
+            //this.getID = this.controller.memoize(this.getElement);
+            this.ulId = this.getID("set-lot");
+            this.elResult = this.getID("mresult");
+            this.userResultElement = this.getID("user-result");
+            this.pcResultElement = this.getID("pc-result");
+            this.fspan = this.getID("helpers");
             //create element
             this.userli = document.createElement("li");
             this.pcli = document.createElement("li");
             this.elementB = document.createElement("b");
-            //color
-            this.correctlyColor = "#2ab676";
         }
     }, {
         key: "start",
@@ -483,9 +484,10 @@ var View = function () {
             this.controller.stop();
         }
     }, {
-        key: "getElement",
-        value: function getElement(selector) {
-            return document.querySelector(selector);
+        key: "getID",
+        value: function getID(id) {
+            var comStyle = document.getElementById(id);
+            return window.getComputedStyle(comStyle);
         }
     }, {
         key: "validAction",

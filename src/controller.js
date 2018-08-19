@@ -95,7 +95,7 @@ class Controller {
             let userResults = document.createTextNode(userStored[i]);
             this.view.elementB.appendChild(userResults);
             if (res == true) {
-                this.view.elementB.style.color = this.view.correctlyColor;
+                this.view.elementB.style.color =  "#2ab676";
             }
             this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
         };
@@ -139,12 +139,13 @@ class Controller {
             element.classList.add("warning");
             this.view.fstart.disabled = true;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
-            if (fspan.style.height != "50px") {
+            if (fspan.height !== "50px") {//ошибка не видет style
                 this.intervalHandlerWarning = setInterval(() => {
                     flag++
-                    fspan.style.display = "block";
-                    fspan.style.height = flag + "px";
-                    fspan.style.paddingTop = flag / 2 + "px";
+                    console.log(fspan.display)
+                    fspan.display = "block";
+                    fspan.height = flag + "px";
+                    fspan.paddingTop = flag / 2 + "px";
                     if (flag == 50) clearInterval(this.intervalHandlerWarning);
                 }, 10);
             }
@@ -211,4 +212,4 @@ class Controller {
 
 };
 
-export default Controller;//1:40
+export default Controller;

@@ -49,10 +49,6 @@ nav {
 }
 
 .TurnsOff {
-    /* padding: 20px 60px;
-    color: #ffffff;
-    border: none;
-    font-size: 34px; */
     cursor: not-allowed;
     filter: alpha(opacity=65);
     -webkit-box-shadow: none;

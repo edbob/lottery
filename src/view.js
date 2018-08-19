@@ -1,4 +1,4 @@
-class View {
+class View {//Недолжно быть логики только взоимодействие с юзер интерфейсом
     constructor(model, controller) {
         this.model = model;
         this.controller = controller;
@@ -22,8 +22,8 @@ class View {
         this.freset = this.form.freset;
 
         //default settings
-        this.ClasNameTurnsOn = "TurnsOn";
-        this.ClasNameTurnsOff = "TurnsOff";
+        this.ClasNameTurnsOn = "btn-default TurnsOn";
+        this.ClasNameTurnsOff = "btn-default TurnsOff";
 
         this.fstart.className += this.ClasNameTurnsOn;
         this.fstop.disabled = true;
@@ -46,24 +46,23 @@ class View {
         if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
         //Find id 
-        this.getID = this.controller.memoize(this.getElement);
-        this.ulId = this.getID("#set-lot");
-        this.elResult = this.getID("#mresult");
-        this.userResultElement = this.getID("#user-result");
-        this.pcResultElement = this.getID("#pc-result");
-        this.fspan = this.getID("#helpers");
+        //this.getID = this.controller.memoize(this.getElement);
+        this.ulId = this.getID("set-lot");
+        this.elResult = this.getID("mresult");
+        this.userResultElement = this.getID("user-result");
+        this.pcResultElement = this.getID("pc-result");
+        this.fspan = this.getID("helpers");
         //create element
         this.userli = document.createElement("li");
         this.pcli = document.createElement("li");
         this.elementB = document.createElement("b");
-        //color
-        this.correctlyColor = "#2ab676";
+        
     };
 
    start(event) {
         let data = {
-            variant: parseInt(this.fresult.value),
-        };
+            variant: parseInt(this.fresult.value)
+        }
 
         this.controller.start(data);
     };
@@ -72,8 +71,9 @@ class View {
         this.controller.stop();
     };
 
-    getElement(selector) {
-        return document.querySelector(selector);
+    getID(id) {
+        let comStyle = document.getElementById(id);
+        return window.getComputedStyle(comStyle);
     };
 
     validAction(event) {
