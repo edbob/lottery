@@ -95,7 +95,7 @@ class Controller {
             let userResults = document.createTextNode(userStored[i]);
             this.view.elementB.appendChild(userResults);
             if (res == true) {
-                this.view.elementB.style.color =  "#2ab676";
+                this.view.elementB.style.color = "#2ab676";
             }
             this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
         };
@@ -122,51 +122,50 @@ class Controller {
         }, 50);
     };
 
-//number of input values
+    //number of input values
     Maxlength({ target }) {
         if (target.hasAttribute("maxlength")) {
             target.value = target.value.slice(0, target.getAttribute("maxlength"))
         };
     };
 
-//drop-down hint menu
+    //drop-down hint menu
     dropHints(element, pattern) {
         let res = element.value.search(pattern);
+        let fspan = this.getID("helpers");
+        let flag = 0;
         if (res == -1) {
-            let flag = 0;
             element.classList.remove("success");
             element.classList.add("warning");
-            console.log(element.style);
             this.view.fstart.disabled = true;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
-            if (this.view.fspan.height !== "50px") {//ошибка не видет style
+            if (fspan.style.height !== "50px") {
                 this.intervalHandlerWarning = setInterval(() => {
+                    //this.view.fspan.style.display = "block";
+                    fspan.style.display = "block";
                     flag++;
-                    console.log(this.view.style);
-                    this.view.fspan.display = "block";
-                    this.view.fspan.height = flag + "px";
-                    this.view.fspan.paddingTop = flag / 2 + "px";
+                    fspan.style.height = flag + "px";
+                    fspan.style.paddingTop = flag / 2 + "px";
                     if (flag == 50) clearInterval(this.intervalHandlerWarning);
                 }, 10);
             }
-
         } else {
-            let flag = 50;
             element.classList.remove("warning");
             element.classList.add("success");
             this.view.fstart.disabled = false;
             this.view.fstart.className = this.view.ClasNameTurnsOn;
-
-            this.intervalHandlerWarning = setInterval(() => {
-                flag--
-                fspan.style.height = flag + "px";
-                fspan.style.paddingTop = flag / 2 + "px";
-                if (flag == 0) {
-                    fspan.style.display = "none";
-                    clearInterval(this.intervalHandlerWarning);
-                }
-            }, 10);
-
+            let elementSum = parseInt(element.value);
+            if (elementSum != 0) {
+                this.intervalHandlerWarning = setInterval(() => {
+                    flag--
+                    fspan.style.height = flag + "px";
+                    fspan.style.paddingTop = flag / 2 + "px";
+                    if (flag == 0) {
+                        fspan.style.display = "none";
+                        clearInterval(this.intervalHandlerWarning);
+                    }
+                }, 10);
+            }
         };
     };
 
@@ -208,6 +207,10 @@ class Controller {
                 return store[arg];
             };
         };
+    };
+
+    getID(id) {
+        return document.getElementById(id);
     };
 
 };

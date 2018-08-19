@@ -72,9 +72,7 @@ class View {//Недолжно быть логики только взоимод
     };
 
     getID(id) {
-        let comStyle = document.getElementById(id);
-        //this.controller.dropHints(comStyle);
-        return window.getComputedStyle(comStyle);
+        return document.getElementById(id);
     };
 
     validAction(event) {

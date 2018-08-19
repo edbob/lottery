@@ -297,40 +297,40 @@ var Controller = function () {
             var _this3 = this;
 
             var res = element.value.search(pattern);
+            var fspan = this.getID("helpers");
+            var flag = 0;
             if (res == -1) {
-                var flag = 0;
                 element.classList.remove("success");
                 element.classList.add("warning");
-                console.log(element.style);
                 this.view.fstart.disabled = true;
                 this.view.fstart.className = this.view.ClasNameTurnsOff;
-                if (this.view.fspan.height !== "50px") {
-                    //ошибка не видет style
+                if (fspan.style.height !== "50px") {
                     this.intervalHandlerWarning = setInterval(function () {
+                        //this.view.fspan.style.display = "block";
+                        fspan.style.display = "block";
                         flag++;
-                        console.log(_this3.view.style);
-                        _this3.view.fspan.display = "block";
-                        _this3.view.fspan.height = flag + "px";
-                        _this3.view.fspan.paddingTop = flag / 2 + "px";
+                        fspan.style.height = flag + "px";
+                        fspan.style.paddingTop = flag / 2 + "px";
                         if (flag == 50) clearInterval(_this3.intervalHandlerWarning);
                     }, 10);
                 }
             } else {
-                var _flag = 50;
                 element.classList.remove("warning");
                 element.classList.add("success");
                 this.view.fstart.disabled = false;
                 this.view.fstart.className = this.view.ClasNameTurnsOn;
-
-                this.intervalHandlerWarning = setInterval(function () {
-                    _flag--;
-                    fspan.style.height = _flag + "px";
-                    fspan.style.paddingTop = _flag / 2 + "px";
-                    if (_flag == 0) {
-                        fspan.style.display = "none";
-                        clearInterval(_this3.intervalHandlerWarning);
-                    }
-                }, 10);
+                var elementSum = parseInt(element.value);
+                if (elementSum != 0) {
+                    this.intervalHandlerWarning = setInterval(function () {
+                        flag--;
+                        fspan.style.height = flag + "px";
+                        fspan.style.paddingTop = flag / 2 + "px";
+                        if (flag == 0) {
+                            fspan.style.display = "none";
+                            clearInterval(_this3.intervalHandlerWarning);
+                        }
+                    }, 10);
+                }
             };
         }
     }, {
@@ -379,6 +379,11 @@ var Controller = function () {
                     return store[arg];
                 };
             };
+        }
+    }, {
+        key: "getID",
+        value: function getID(id) {
+            return document.getElementById(id);
         }
     }]);
 
@@ -486,9 +491,7 @@ var View = function () {
     }, {
         key: "getID",
         value: function getID(id) {
-            var comStyle = document.getElementById(id);
-            //this.controller.dropHints(comStyle);
-            return window.getComputedStyle(comStyle);
+            return document.getElementById(id);
         }
     }, {
         key: "validAction",
