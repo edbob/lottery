@@ -297,21 +297,21 @@ var Controller = function () {
             var _this3 = this;
 
             var res = element.value.search(pattern);
-            var fspan = this.view.fspan;
             if (res == -1) {
                 var flag = 0;
                 element.classList.remove("success");
                 element.classList.add("warning");
+                console.log(element.style);
                 this.view.fstart.disabled = true;
                 this.view.fstart.className = this.view.ClasNameTurnsOff;
-                if (fspan.height !== "50px") {
+                if (this.view.fspan.height !== "50px") {
                     //ошибка не видет style
                     this.intervalHandlerWarning = setInterval(function () {
                         flag++;
-                        console.log(fspan.display);
-                        fspan.display = "block";
-                        fspan.height = flag + "px";
-                        fspan.paddingTop = flag / 2 + "px";
+                        console.log(_this3.view.style);
+                        _this3.view.fspan.display = "block";
+                        _this3.view.fspan.height = flag + "px";
+                        _this3.view.fspan.paddingTop = flag / 2 + "px";
                         if (flag == 50) clearInterval(_this3.intervalHandlerWarning);
                     }, 10);
                 }
@@ -487,6 +487,7 @@ var View = function () {
         key: "getID",
         value: function getID(id) {
             var comStyle = document.getElementById(id);
+            //this.controller.dropHints(comStyle);
             return window.getComputedStyle(comStyle);
         }
     }, {

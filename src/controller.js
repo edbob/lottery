@@ -132,20 +132,20 @@ class Controller {
 //drop-down hint menu
     dropHints(element, pattern) {
         let res = element.value.search(pattern);
-        let fspan = this.view.fspan;
         if (res == -1) {
             let flag = 0;
             element.classList.remove("success");
             element.classList.add("warning");
+            console.log(element.style);
             this.view.fstart.disabled = true;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
-            if (fspan.height !== "50px") {//ошибка не видет style
+            if (this.view.fspan.height !== "50px") {//ошибка не видет style
                 this.intervalHandlerWarning = setInterval(() => {
-                    flag++
-                    console.log(fspan.display)
-                    fspan.display = "block";
-                    fspan.height = flag + "px";
-                    fspan.paddingTop = flag / 2 + "px";
+                    flag++;
+                    console.log(this.view.style);
+                    this.view.fspan.display = "block";
+                    this.view.fspan.height = flag + "px";
+                    this.view.fspan.paddingTop = flag / 2 + "px";
                     if (flag == 50) clearInterval(this.intervalHandlerWarning);
                 }, 10);
             }
