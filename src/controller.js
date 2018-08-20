@@ -6,7 +6,6 @@ class Controller {
         this.arr = [];
         this.intervalHandlerDigital = 0;
         this.intervalHandlerResult = 0;
-       // this.intervalHandlerWarning = 0;
     };
 
     start({ variant }) {

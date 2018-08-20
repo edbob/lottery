@@ -150,7 +150,6 @@ var Controller = function () {
             this.arr = [];
             this.intervalHandlerDigital = 0;
             this.intervalHandlerResult = 0;
-            // this.intervalHandlerWarning = 0;
         }
     }, {
         key: "start",
