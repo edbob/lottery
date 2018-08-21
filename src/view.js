@@ -52,11 +52,6 @@ class View {//Недолжно быть логики только взоимод
         this.userResultElement = this.getID("user-result");
         this.pcResultElement = this.getID("pc-result");
         this.fspan = this.getID("helpers");
-        //create element
-        this.userli = document.createElement("li");
-        this.pcli = document.createElement("li");
-        this.elementB = document.createElement("b");
-        
     };
 
    start(event) {
