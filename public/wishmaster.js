@@ -245,12 +245,14 @@ var Controller = function () {
             for (var _i = 0; _i < 5; _i++) {
                 var res = userStored[_i].indexOf(pcStored[_i]) > -1;
                 var userResults = document.createTextNode(userStored[_i]);
-                elementB.appendChild(userResults);
                 this.view.userResultElement.appendChild(userli);
+
                 if (res == true) {
+                    this.view.userResultElement.appendChild(userli).appendChild(elementB).appendChild(userResults);
                     elementB.style.color = "#2ab676";
+                } else {
+                    userli.appendChild(userResults);
                 }
-                this.view.userResultElement.appendChild(elementB);
             };
             // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
 
