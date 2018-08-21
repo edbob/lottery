@@ -205,7 +205,7 @@ var Controller = function () {
         value: function result() {
             var _this = this;
 
-            var userVariantSumm = +this.view.fresult.value;
+            var userVariantSumm = this.view.fresult.value;
             var sumOfSquares = 0;
             this.arr.forEach(function (x) {
                 sumOfSquares += x.innerText;
@@ -224,9 +224,8 @@ var Controller = function () {
 
                 if (flag == 50) clearInterval(intervalHandlerResult);
             }, 10);
-
-            this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
-
+            this.pcli = document.createElement("li");
+            this.view.pcResultElement.appendChild(this.pcli).innerText += pcVariantSumm;
             this.sortResult(userVariantSumm, pcVariantSumm);
         }
     }, {
@@ -241,16 +240,20 @@ var Controller = function () {
                 userStored.push(userSum[i]);
                 pcStored.push(pcSum[i]);
             };
+            var userli = document.createElement("li");
+            var elementB = document.createElement("b");
 
             for (var _i = 0; _i < 5; _i++) {
                 var res = userStored[_i].indexOf(pcStored[_i]) > -1;
                 var userResults = document.createTextNode(userStored[_i]);
-                this.view.elementB.appendChild(userResults);
+                elementB.appendChild(userResults);
+                this.view.userResultElement.appendChild(userli);
                 if (res == true) {
-                    this.view.elementB.style.color = "#2ab676";
+                    elementB.style.color = "#2ab676";
                 }
-                this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
+                this.view.userResultElement.appendChild(elementB);
             };
+            // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
 
             for (var _i2 = 0; _i2 < 5; _i2++) {
                 this.arr.pop();
@@ -467,10 +470,6 @@ var View = function () {
             this.userResultElement = this.getID("user-result");
             this.pcResultElement = this.getID("pc-result");
             this.fspan = this.getID("helpers");
-            //create element
-            this.userli = document.createElement("li");
-            this.pcli = document.createElement("li");
-            this.elementB = document.createElement("b");
         }
     }, {
         key: "start",

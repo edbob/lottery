@@ -54,7 +54,7 @@ class Controller {
     };
 
     result() {
-        let userVariantSumm = + this.view.fresult.value;
+        let userVariantSumm = this.view.fresult.value;
         let sumOfSquares = 0;
         this.arr.forEach((x) => {
             sumOfSquares += x.innerText;
@@ -73,9 +73,8 @@ class Controller {
 
             if (flag == 50) clearInterval(intervalHandlerResult);
         }, 10);
-
-        this.view.pcResultElement.appendChild(this.view.pcli).innerText += pcVariantSumm;
-
+        this.pcli = document.createElement("li");
+        this.view.pcResultElement.appendChild(this.pcli).innerText += pcVariantSumm;
         this.sortResult(userVariantSumm, pcVariantSumm);
     };
 
@@ -89,16 +88,20 @@ class Controller {
             userStored.push(userSum[i]);
             pcStored.push(pcSum[i]);
         };
+        let userli = document.createElement("li");
+        let elementB = document.createElement("b");
 
         for (let i = 0; i < 5; i++) {
             let res = userStored[i].indexOf(pcStored[i]) > -1;
             let userResults = document.createTextNode(userStored[i]);
-            this.view.elementB.appendChild(userResults);
+            elementB.appendChild(userResults);
+            this.view.userResultElement.appendChild(userli)
             if (res == true) {
-                this.view.elementB.style.color = "#2ab676";
+                elementB.style.color = "#2ab676";
             }
-            this.view.userResultElement.appendChild(this.view.userli).appendChild(this.view.elementB);
+            this.view.userResultElement.appendChild(elementB);
         };
+        // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
 
         for (let i = 0; i < 5; i++) {
             this.arr.pop();
