@@ -15,6 +15,8 @@ class Controller {
             this.view.fstop.disabled = false;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
             this.view.fstart.disabled = true;
+            this.view.freset.disabled = true;
+            this.view.freset.className  = this.view.ClasNameTurnsOff;
             this.view.fresult.classList.remove("warning");
         } else {
             this.view.fresult.classList.remove("success");
