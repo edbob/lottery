@@ -254,7 +254,6 @@ var Controller = function () {
                     this.view.userResultElement.appendChild(userli).appendChild(userResults);
                 }
             };
-            // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
 
             for (var _i2 = 0; _i2 < 5; _i2++) {
                 this.arr.pop();
