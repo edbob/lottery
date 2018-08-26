@@ -74,6 +74,10 @@ nav {
     background-color: #0094ff;
 }
 
+.blk-main {
+    width: 5px;
+}
+
 .blk-lottery {
     border: 1px solid #808080;
     border-radius: 25px;
