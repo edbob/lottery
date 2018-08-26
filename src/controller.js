@@ -102,7 +102,6 @@ class Controller {
                 this.view.userResultElement.appendChild(userli).appendChild(userResults);
             }
         };
-        // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
 
         for (let i = 0; i < 5; i++) {
             this.arr.pop();
