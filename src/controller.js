@@ -93,13 +93,11 @@ class Controller {
         for (let i = 0; i < 5; i++) {
             let res = userStored[i].indexOf(pcStored[i]) > -1;
             let userResults = document.createTextNode(userStored[i]);
-            this.view.userResultElement.appendChild(userli);
-            
             if (res == true) {
                 this.view.userResultElement.appendChild(userli).appendChild(elementB).appendChild(userResults);
                 elementB.style.color = "#2ab676";
             }else{
-                userli.appendChild(userResults);
+                this.view.userResultElement.appendChild(userli).appendChild(userResults);
             }
         };
         // this.view.userResultElement.appendChild(this.userli).appendChild(this.view.elementB);
