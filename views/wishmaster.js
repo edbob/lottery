@@ -184,9 +184,9 @@ var Controller = function () {
     }, {
         key: "stop",
         value: function stop() {
-            this.view.fstop.disabled = true;
+            //this.view.fstop.disabled = true;
             this.view.fstart.disabled = true;
-            this.view.fstop.className = this.view.ClasNameTurnsOff;
+            //this.view.fstop.className = this.view.ClasNameTurnsOff;
             this.view.fresult.disabled = true;
             this.view.freset.disabled = false;
             this.view.freset.className = this.view.ClasNameTurnsOn;
