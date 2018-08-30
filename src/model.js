@@ -1,8 +1,14 @@
 const data = require("../db/db.json");
+
 class Model {
     constructor() {
-        this.correctly = data.correctly,
-        this.incorrectly = data.incorrectly
+        this.correctly = data.correctly;
+        this.incorrectly = data.incorrectly;
+    };
+
+    add(sum) {
+       this.sumUser = sum;
+       return this.sumUser;
     };
 };
 

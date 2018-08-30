@@ -1,3 +1,5 @@
+import model from "./src/model";
+
 const express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
@@ -38,20 +40,18 @@ app.get('/team', (req, res, nex) => {
 app.get('/contact', (req, res, nex) => {
     res.render('contact');
 });
-//this.view.fresult.value;
-app.post('/lottery/addSum', function (req, res, nex) {
-    let sumUser = req.body.fresult;
-    let randomId = Math.floor(Math.random() * 9999999);
 
-    redisClient.hmset(randomId, ['userSum', sumUser],
-        function (err, reply) {
-            if (err) {
-                console.log(err);
-            }
-            console.log(reply);
-            res.redirect('/');
-        });
-});
+let sumUser = model.sumUser;
+let randomId = Math.floor(Math.random() * 9999999);
+
+redisClient.hmset(randomId, ['userSum', sumUser],
+    function (err, reply) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(reply);
+        res.redirect('/');
+    });
 
 app.listen(3000, () => {
     console.log('Server started on port ' + 3000);

@@ -57,6 +57,8 @@ class Controller {
     result() {
         let userVariantSumm = this.view.fresult.value;
         let sumOfSquares = 0;
+        
+        this.model.add(userVariantSumm);
         this.arr.forEach((x) => {
             sumOfSquares += x.innerText;
         });
