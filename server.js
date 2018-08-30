@@ -7,7 +7,7 @@ const express = require('express'),
 
 let redisClient = redis.createClient();
 redisClient.on('connect', () => { console.log('Connected to Redis...') });
-redisClient.on('error', (err) => { console.log("Error" + err) });
+redisClient.on('error', (err) => { console.log("Error" + err + redisClient.quit()) });
 
 const app = express();
 
@@ -16,7 +16,9 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.engine('handlebars', hbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    limit: "10kb"
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(methodOverride('_method'));
