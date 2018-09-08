@@ -1,4 +1,4 @@
-class View {//Недолжно быть логики только взоимодействие с юзер интерфейсом
+class View {
     constructor(model, controller) {
         this.model = model;
         this.controller = controller;
@@ -60,6 +60,7 @@ class View {//Недолжно быть логики только взоимод
         }
 
         this.controller.start(data);
+        this.model.sumUser(data);
     };
 
     stop(event) {
@@ -83,5 +84,5 @@ class View {//Недолжно быть логики только взоимод
     };
 
 };
-
+module.exports.start = start;
 export default View;

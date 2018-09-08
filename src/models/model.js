@@ -6,9 +6,9 @@ class Model {
         this.incorrectly = data.incorrectly;
     };
 
-    add(sum) {
-       this.sumUser = sum;
-       return this.sumUser;
+    sumUser(sum){
+        this.sumUser = this.sum;
+        
     };
 };
 

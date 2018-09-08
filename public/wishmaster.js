@@ -60,25 +60,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 161);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 161:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _model = __webpack_require__(1);
+var _model = __webpack_require__(162);
 
 var _model2 = _interopRequireDefault(_model);
 
-var _controller = __webpack_require__(3);
+var _controller = __webpack_require__(423);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _view = __webpack_require__(4);
+var _view = __webpack_require__(424);
 
 var _view2 = _interopRequireDefault(_view);
 
@@ -91,7 +92,8 @@ var view = new _view2.default(model, controller);
 controller.initialize(model, view);
 
 /***/ }),
-/* 1 */
+
+/***/ 162:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -105,7 +107,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var data = __webpack_require__(2);
+var data = __webpack_require__(163);
 
 var Model = function () {
     function Model() {
@@ -116,10 +118,9 @@ var Model = function () {
     }
 
     _createClass(Model, [{
-        key: "add",
-        value: function add(sum) {
-            this.sumUser = sum;
-            return this.sumUser;
+        key: "sumUser",
+        value: function sumUser(sum) {
+            this.sumUser = this.sum;
         }
     }]);
 
@@ -131,13 +132,15 @@ var Model = function () {
 exports.default = Model;
 
 /***/ }),
-/* 2 */
+
+/***/ 163:
 /***/ (function(module, exports) {
 
 module.exports = {"correctly":"Your is winner!","incorrectly":"Try again!"}
 
 /***/ }),
-/* 3 */
+
+/***/ 423:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -224,7 +227,6 @@ var Controller = function () {
             var userVariantSumm = this.view.fresult.value;
             var sumOfSquares = 0;
 
-            this.model.add(userVariantSumm);
             this.arr.forEach(function (x) {
                 sumOfSquares += x.innerText;
             });
@@ -413,7 +415,8 @@ var Controller = function () {
 exports.default = Controller;
 
 /***/ }),
-/* 4 */
+
+/***/ 424:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -428,7 +431,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var View = function () {
-    //Недолжно быть логики только взоимодействие с юзер интерфейсом
     function View(model, controller) {
         _classCallCheck(this, View);
 
@@ -496,6 +498,7 @@ var View = function () {
             };
 
             this.controller.start(data);
+            this.model.sumUser(data);
         }
     }, {
         key: "stop",
@@ -531,4 +534,5 @@ var View = function () {
 exports.default = View;
 
 /***/ })
-/******/ ]);
+
+/******/ });
