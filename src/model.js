@@ -6,10 +6,10 @@ class Model {
         this.incorrectly = data.incorrectly;
     };
 
-    sumUser(sum){
-        this.sumUser = this.sum;
+    // sumUser(sum){
+    //     this.sumUser = this.sum;
         
-    };
+    // };
 };
 
 export default Model;

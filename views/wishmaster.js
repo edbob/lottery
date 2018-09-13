@@ -60,26 +60,25 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 161);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 161:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _model = __webpack_require__(162);
+var _model = __webpack_require__(1);
 
 var _model2 = _interopRequireDefault(_model);
 
-var _controller = __webpack_require__(423);
+var _controller = __webpack_require__(3);
 
 var _controller2 = _interopRequireDefault(_controller);
 
-var _view = __webpack_require__(424);
+var _view = __webpack_require__(4);
 
 var _view2 = _interopRequireDefault(_view);
 
@@ -92,8 +91,7 @@ var view = new _view2.default(model, controller);
 controller.initialize(model, view);
 
 /***/ }),
-
-/***/ 162:
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103,44 +101,29 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var data = __webpack_require__(163);
+var data = __webpack_require__(2);
 
-var Model = function () {
-    function Model() {
-        _classCallCheck(this, Model);
+var Model = function Model() {
+    _classCallCheck(this, Model);
 
-        this.correctly = data.correctly;
-        this.incorrectly = data.incorrectly;
-    }
-
-    _createClass(Model, [{
-        key: "sumUser",
-        value: function sumUser(sum) {
-            this.sumUser = this.sum;
-        }
-    }]);
-
-    return Model;
-}();
+    this.correctly = data.correctly;
+    this.incorrectly = data.incorrectly;
+};
 
 ;
 
 exports.default = Model;
 
 /***/ }),
-
-/***/ 163:
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = {"correctly":"Your is winner!","incorrectly":"Try again!"}
 
 /***/ }),
-
-/***/ 423:
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -202,9 +185,9 @@ var Controller = function () {
     }, {
         key: "stop",
         value: function stop() {
-            //this.view.fstop.disabled = true;
+            this.view.fstop.disabled = true;
             this.view.fstart.disabled = true;
-            //this.view.fstop.className = this.view.ClasNameTurnsOff;
+            this.view.fstop.className = this.view.ClasNameTurnsOff;
             this.view.fresult.disabled = true;
             this.view.freset.disabled = false;
             this.view.freset.className = this.view.ClasNameTurnsOn;
@@ -316,20 +299,22 @@ var Controller = function () {
 
         //drop-down hint menu
         value: function dropHints(element, pattern) {
+            var _this3 = this;
+
             var res = element.value.search(pattern);
-            var fspan = this.getID("helpers");
+            //let fspan = this.view.getID("helpers");
             var flag = 0;
             if (res == -1) {
                 element.classList.remove("success");
                 element.classList.add("warning");
                 this.view.fstart.disabled = true;
                 this.view.fstart.className = this.view.ClasNameTurnsOff;
-                if (fspan.style.height !== "50px") {
+                if (this.view.fspan.style.height !== "50px") {
                     var intervalHandlerWarning = setInterval(function () {
-                        fspan.style.display = "block";
+                        _this3.view.fspan.style.display = "block";
                         flag++;
-                        fspan.style.height = flag + "px";
-                        fspan.style.paddingTop = flag / 2 + "px";
+                        _this3.view.fspan.style.height = flag + "px";
+                        _this3.view.fspan.style.paddingTop = flag / 2 + "px";
                         if (flag == 50) clearInterval(intervalHandlerWarning);
                     }, 10);
                 }
@@ -341,12 +326,12 @@ var Controller = function () {
                 var elementSum = parseInt(element.value);
                 if (elementSum != 0) {
                     var _intervalHandlerWarning = setInterval(function () {
-                        var sumFlag = parseInt(fspan.style.height);
+                        var sumFlag = parseInt(_this3.view.fspan.style.height);
                         sumFlag--;
-                        fspan.style.height = sumFlag + "px";
-                        fspan.style.paddingTop = sumFlag / 2 + "px";
+                        _this3.view.fspan.style.height = sumFlag + "px";
+                        _this3.view.fspan.style.paddingTop = sumFlag / 2 + "px";
                         if (sumFlag == 0) {
-                            fspan.style.display = "none";
+                            _this3.view.fspan.style.display = "none";
                             clearInterval(_intervalHandlerWarning);
                         }
                     }, 10);
@@ -356,7 +341,7 @@ var Controller = function () {
     }, {
         key: "reset",
         value: function reset() {
-            var _this3 = this;
+            var _this4 = this;
 
             for (var i = 0; i < this.arr.length; i++) {
                 this.arr[i].innerText = 0;
@@ -369,11 +354,11 @@ var Controller = function () {
                 var flag = 50;
                 this.intervalHandlerResult = setInterval(function () {
                     flag--;
-                    _this3.view.elResult.style.height = flag + "px";
-                    _this3.view.elResult.style.paddingTop = flag / 2 + "px";
+                    _this4.view.elResult.style.height = flag + "px";
+                    _this4.view.elResult.style.paddingTop = flag / 2 + "px";
                     if (flag == 0) {
-                        _this3.view.elResult.style.display = "none";
-                        clearInterval(_this3.intervalHandlerResult);
+                        _this4.view.elResult.style.display = "none";
+                        clearInterval(_this4.intervalHandlerResult);
                     }
                 }, 10);
             };
@@ -386,25 +371,6 @@ var Controller = function () {
             var pattern = /^[1-9]{5}/;
             this.dropHints(target, pattern);
         }
-    }, {
-        key: "memoize",
-        value: function memoize(fn) {
-            var store = {};
-
-            return function (arg) {
-                if (store[arg]) {
-                    return store[arg];
-                } else {
-                    store[arg] = fn(arg);
-                    return store[arg];
-                };
-            };
-        }
-    }, {
-        key: "getID",
-        value: function getID(id) {
-            return document.getElementById(id);
-        }
     }]);
 
     return Controller;
@@ -415,8 +381,7 @@ var Controller = function () {
 exports.default = Controller;
 
 /***/ }),
-
-/***/ 424:
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -483,7 +448,7 @@ var View = function () {
             if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
             //Find id 
-            //this.getID = this.controller.memoize(this.getElement);
+            this.getID = this.memoize(this.getElement);
             this.ulId = this.getID("set-lot");
             this.elResult = this.getID("mresult");
             this.userResultElement = this.getID("user-result");
@@ -498,17 +463,12 @@ var View = function () {
             };
 
             this.controller.start(data);
-            this.model.sumUser(data);
+            //this.model.sumUser(data);
         }
     }, {
         key: "stop",
         value: function stop(event) {
             this.controller.stop();
-        }
-    }, {
-        key: "getID",
-        value: function getID(id) {
-            return document.getElementById(id);
         }
     }, {
         key: "validAction",
@@ -524,15 +484,33 @@ var View = function () {
         value: function lotReset() {
             this.controller.reset();
         }
+    }, {
+        key: "memoize",
+        value: function memoize(fn) {
+            var store = {};
+
+            return function (arg) {
+                if (store[arg]) {
+                    return store[arg];
+                } else {
+                    store[arg] = fn(arg);
+                    return store[arg];
+                };
+            };
+        }
+    }, {
+        key: "getElement",
+        value: function getElement(id) {
+            return document.getElementById(id);
+        }
     }]);
 
     return View;
 }();
 
 ;
-
+//module.exports.start = start;
 exports.default = View;
 
 /***/ })
-
-/******/ });
+/******/ ]);

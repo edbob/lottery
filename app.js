@@ -6,7 +6,7 @@ const express = require('express'),
     hbs = require('express-handlebars'),
     morgan = require('morgan'),
     favicon = require('serve-favicon');
-    
+
 let redisClient = redis.createClient();
 redisClient.on('connect', () => { console.log('Connected to Redis...') });
 redisClient.on('error', (err) => { console.log("Error" + err + redisClient.quit()) });
@@ -27,7 +27,7 @@ app.use(bodyParser.json({
     limit: "10kb"
 }));
 
-let router = require('./src/router.js');
+//let router = require('./src/router.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -49,7 +49,7 @@ app.get('/contact', (req, res, nex) => {
     res.render('contact');
 });
 
-router(app);
+//router(app);
 
 //let sumUser = model.sumUser;
 let randomId = Math.floor(Math.random() * 9999999);

@@ -36,9 +36,9 @@ class Controller {
     };
 
     stop() {
-        //this.view.fstop.disabled = true;
+        this.view.fstop.disabled = true;
         this.view.fstart.disabled = true;
-        //this.view.fstop.className = this.view.ClasNameTurnsOff;
+        this.view.fstop.className = this.view.ClasNameTurnsOff;
         this.view.fresult.disabled = true;
         this.view.freset.disabled = false;
         this.view.freset.className = this.view.ClasNameTurnsOn;
@@ -136,19 +136,19 @@ class Controller {
     //drop-down hint menu
     dropHints(element, pattern) {
         let res = element.value.search(pattern);
-        let fspan = this.getID("helpers");
+        //let fspan = this.view.getID("helpers");
         let flag = 0;
         if (res == -1) {
             element.classList.remove("success");
             element.classList.add("warning");
             this.view.fstart.disabled = true;
             this.view.fstart.className = this.view.ClasNameTurnsOff;
-            if (fspan.style.height !== "50px") {
+            if (this.view.fspan.style.height !== "50px") {
                 let intervalHandlerWarning = setInterval(() => {
-                    fspan.style.display = "block";
+                    this.view.fspan.style.display = "block";
                     flag++;
-                    fspan.style.height = flag + "px";
-                    fspan.style.paddingTop = flag / 2 + "px";
+                    this.view.fspan.style.height = flag + "px";
+                    this.view.fspan.style.paddingTop = flag / 2 + "px";
                     if (flag == 50) clearInterval(intervalHandlerWarning);
                 }, 10);
             }
@@ -160,12 +160,12 @@ class Controller {
             let elementSum = parseInt(element.value);
             if (elementSum != 0) {
                 let intervalHandlerWarning = setInterval(() => {
-                    let sumFlag = parseInt(fspan.style.height);
+                    let sumFlag = parseInt(this.view.fspan.style.height);
                     sumFlag--
-                    fspan.style.height = sumFlag + "px";
-                    fspan.style.paddingTop = sumFlag / 2 + "px";
+                    this.view.fspan.style.height = sumFlag + "px";
+                    this.view.fspan.style.paddingTop = sumFlag / 2 + "px";
                     if (sumFlag == 0) {
-                        fspan.style.display = "none";
+                        this.view.fspan.style.display = "none";
                         clearInterval(intervalHandlerWarning);
                     }
                 }, 10);
@@ -198,23 +198,6 @@ class Controller {
     patterns({ target }) {
         let pattern = /^[1-9]{5}/;
         this.dropHints(target, pattern);
-    };
-
-    memoize(fn) {
-        let store = {};
-
-        return function (arg) {
-            if (store[arg]) {
-                return store[arg];
-            } else {
-                store[arg] = fn(arg);
-                return store[arg];
-            };
-        };
-    };
-
-    getID(id) {
-        return document.getElementById(id);
     };
 
 };

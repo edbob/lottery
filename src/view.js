@@ -46,7 +46,7 @@ class View {
         if (this.freset.attachEvent) this.freset.attachEvent("onclick", this.lotReset);
 
         //Find id 
-        //this.getID = this.controller.memoize(this.getElement);
+        this.getID = this.memoize(this.getElement);
         this.ulId = this.getID("set-lot");
         this.elResult = this.getID("mresult");
         this.userResultElement = this.getID("user-result");
@@ -60,15 +60,11 @@ class View {
         }
 
         this.controller.start(data);
-        this.model.sumUser(data);
+        //this.model.sumUser(data);
     };
 
     stop(event) {
         this.controller.stop();
-    };
-
-    getID(id) {
-        return document.getElementById(id);
     };
 
     validAction(event) {
@@ -83,6 +79,23 @@ class View {
         this.controller.reset();
     };
 
+    memoize(fn) {
+        let store = {};
+
+        return function (arg) {
+            if (store[arg]) {
+                return store[arg];
+            } else {
+                store[arg] = fn(arg);
+                return store[arg];
+            };
+        };
+    };
+
+    getElement(id) {
+        return document.getElementById(id);
+    };
+
 };
-module.exports.start = start;
+//module.exports.start = start;
 export default View;
